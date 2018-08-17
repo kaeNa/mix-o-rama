@@ -1,10 +1,10 @@
-from enum import Enum, auto
+from enum import Enum
 from typing import Union
 
 
 class CoreStates(Enum):
-    UNDEFINED = auto()
-    EXCEPTION = auto()
+    UNDEFINED = 1
+    EXCEPTION = 2
 
 
 class InvalidStateMachineTransition(AttributeError):
@@ -23,7 +23,7 @@ def sm_transition(allowed_from: Union[list, Enum], when_done: Enum, while_workin
             current_state = getattr(self, '_sm_state', CoreStates.UNDEFINED)
 
             if current_state not in allowed_from:
-                raise InvalidStateMachineTransition(current_state, operation_name, allowed_from)
+                raise InvalidStateMachineTransition(operation_name, repr(current_state), allowed_from)
 
             if while_working is not None:
                 self._sm_state = while_working

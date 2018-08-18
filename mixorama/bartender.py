@@ -32,9 +32,14 @@ class Bartender:
             if self._abort:
                 return False
 
-            self.scales.reset()
-            self.components[component].open()
             try:
+                self.scales.reset()
+            except ScalesTimeoutException:
+                print('error resetting scales')
+                raise
+
+            try:
+                self.components[component].open()
                 self.scales.wait_for_weight(volume * component.density)
             except ScalesTimeoutException:
                 print('something is wrong with the valve')

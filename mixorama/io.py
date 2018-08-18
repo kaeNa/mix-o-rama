@@ -7,7 +7,7 @@ class Button():
         with warnings.catch_warnings(record=True) as w:
             GPIO.setup(channel, GPIO.IN, pull_up_down=GPIO.PUD_UP)
             if len(w) > 0:
-                print('{} ...when trying to setup button on channel {}'.format(w, channel))
+                print('{} ...when trying to setup button on channel {}'.format(w[0].message, channel))
 
         GPIO.add_event_detect(channel, GPIO.FALLING, callback=self._callback, bouncetime=400)
         self.cb = callback
@@ -22,7 +22,7 @@ class Valve():
         with warnings.catch_warnings(record=True) as w:
             GPIO.setup(self.channel, GPIO.OUT)
             if len(w) > 0:
-                print('{} ...when trying to setup valve on channel {}'.format(w, self.channel))
+                print('{} ...when trying to setup valve on channel {}'.format(w[0].message, self.channel))
 
     def open(self):
         GPIO.output(self.channel, 1)

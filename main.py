@@ -7,18 +7,38 @@ from mixorama.io import Button, Valve
 from mixorama.recipes import Component, GIN_TONIC, CUBA_LIBRE
 from mixorama.scales import Scales
 
-GPIO.setmode(GPIO.BCM)
+#                               pin #3 is usable as output     which is BCM 2
+#                               pin #5 is usable as output     which is BCM 3
+# pin #7 is usable as input     pin #7 is usable as output     which is BCM 4
+# pin #8 is usable as input     pin #8 is usable as output     which is BCM 14
+# pin #10 is usable as input    pin #10 is usable as output    which is BCM 15
+# pin #11 is usable as input    pin #11 is usable as output    which is BCM 17
 
+# pin #12 is usable as input    pin #12 is usable as output    which is BCM 18
+# pin #13 is usable as input    pin #13 is usable as output    which is BCM 27
+# pin #15 is usable as input    pin #15 is usable as output    which is BCM 22
+# pin #16 is usable as input    pin #16 is usable as output    which is BCM 23
+# pin #18 is usable as input    pin #18 is usable as output    which is BCM 24
+# pin #19 is usable as input    pin #19 is usable as output    which is BCM 10
+# pin #21 is usable as input    pin #21 is usable as output    which is BCM 9
+# pin #22 is usable as input    pin #22 is usable as output    which is BCM 25
+# pin #23 is usable as input    pin #23 is usable as output    which is BCM 11
+# pin #24 is usable as input    pin #24 is usable as output    which is BCM 8
+# pin #26 is usable as input    pin #26 is usable as output    which is BCM 7
+# pin #29 is usable as input    pin #29 is usable as output    which is BCM 5
+# pin #35 is usable as input                                   which is BCM 19
+
+GPIO.setmode(GPIO.BCM)
 components = {
-    Component.GIN: Valve(11),
-    Component.TONIC: Valve(13),
-    Component.RUM: Valve(15),
-    Component.COLA: Valve(19),
-    # Component.XXXX: Valve(21),
-    # Component.YYYY: Valve(23),
+    Component.GIN: Valve(18),  # 12
+    Component.TONIC: Valve(27),  # 13
+    Component.RUM: Valve(22),  # 15
+    Component.COLA: Valve(23),  # 16
+    2: Valve(24),  # 18
+    1: Valve(10),  # 19
 }
 
-scales = Scales(0, 1)
+scales = Scales(9, 25)  # pins 21, 22
 
 bar = Bartender(components, scales)
 
@@ -34,14 +54,17 @@ def request_drink(recipe):
     return ui
 
 
-abort_btn = Button(40, lambda: bar.abort() and print('Please discard the glass contents'))
-gin_tonic_btn = Button(18, request_drink(GIN_TONIC))
-cuba_libre_btn = Button(23, request_drink(CUBA_LIBRE))
+abort_btn = Button(11, lambda: bar.abort() and print('Please discard the glass contents'))  # 23
+gin_tonic_btn = Button(8, request_drink(GIN_TONIC))  # 24
+cuba_libre_btn = Button(7, request_drink(CUBA_LIBRE))  # 26
 
-Button(24, lambda: print('not assigned'))
-Button(25, lambda: print('not assigned'))
-Button(8, lambda: print('not assigned'))
-Button(7, lambda: print('not assigned'))
+Button(5, lambda: print('not assigned'))  # 29
+Button(19, lambda: print('not assigned'))  # 35
+# Button(15, lambda: print('not assigned'))  # 10
+# Button(17, lambda: print('not assigned'))  # 11
+
+
+print('Ready to make cocktails!')
 
 
 while True:

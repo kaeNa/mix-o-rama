@@ -1,6 +1,6 @@
 from enum import IntEnum, unique
 from typing import List, Dict, Tuple
-
+import logging
 from mixorama.io import Valve
 from mixorama.recipes import Component
 from mixorama.scales import Scales, ScalesTimeoutException, WaitingForWeightAbortedException
@@ -8,6 +8,9 @@ from mixorama.statemachine import sm_transition
 
 GLASS_WEIGHT = 150  # grams
 USER_TAKE_GLASS_TIMEOUT = 60  # sec
+
+
+logger = logging.getLogger(__name__)
 
 
 @unique
@@ -35,17 +38,18 @@ class Bartender:
             try:
                 self.scales.reset()
             except ScalesTimeoutException:
-                print('error resetting scales')
+                logger.info('error resetting scales')
                 raise
 
             try:
                 self.components[component].open()
-                self.scales.wait_for_weight(volume * component.density)
+
+                self.scales.wait_for_weight(volume * component.value.density)
             except ScalesTimeoutException:
-                print('something is wrong with the valve')
+                logger.info('something is wrong with the valve')
                 raise
             except WaitingForWeightAbortedException:
-                print('cocktail aborted')
+                logger.info('cocktail aborted')
                 return False
             finally:
                 self.components[component].close()
@@ -60,8 +64,9 @@ class Bartender:
 
     @sm_transition(allowed_from=BartenderState.READY, when_done=BartenderState.IDLE)
     def serve(self):
+        logger.info('waiting for the user to retrieve the glass')
         self.scales.reset()
         try:
             self.scales.wait_for_weight(GLASS_WEIGHT * -1, USER_TAKE_GLASS_TIMEOUT * 1000)
         except ScalesTimeoutException:
-            print('giving up waiting for the user to retrieve the glass')
+            logger.info('giving up waiting for the user to retrieve the glass')

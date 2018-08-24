@@ -12,6 +12,9 @@ class Component(Enum):
     TONIC = ComponentProperties()
     RUM = ComponentProperties()
     COLA = ComponentProperties()
+    COINTREAU = ComponentProperties()
+    TEQUILA = ComponentProperties()
+    LIME_JUICE = ComponentProperties()
 
 
 GIN_TONIC = [  # 1:2, total 345ml + ice & lime
@@ -25,3 +28,8 @@ CUBA_LIBRE = [  # total 170 + lime
     (Component.COLA, 120)
 ]
 
+MARGARITA = [  # total 70ml + lime
+    (Component.TEQUILA, 35),
+    (Component.COINTREAU, 20),
+    (Component.LIME_JUICE, 15)
+]

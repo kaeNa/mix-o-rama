@@ -1,6 +1,10 @@
-from time import sleep
-
+import sys
+import time
 from RPi import GPIO
+import logging
+
+logging.basicConfig(stream=sys.stdout, level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 from mixorama.bartender import Bartender
 from mixorama.io import Button, Valve
@@ -29,13 +33,14 @@ from mixorama.scales import Scales
 # pin #35 is usable as input                                   which is BCM 19
 
 GPIO.setmode(GPIO.BCM)
+
 components = {
     Component.GIN: Valve(18),  # 12
     Component.TONIC: Valve(27),  # 13
-    Component.RUM: Valve(22),  # 15
-    Component.COLA: Valve(23),  # 16
-    2: Valve(24),  # 18
-    1: Valve(10),  # 19
+    # Component.RUM: Valve(22),  # 15
+    # Component.COLA: Valve(23),  # 16
+    # Component.TEQUILA: Valve(24),  # 18
+    # Component.COINTREAU: Valve(10),  # 19
 }
 
 scales = Scales(9, 25)  # pins 21, 22
@@ -45,27 +50,27 @@ bar = Bartender(components, scales)
 
 def request_drink(recipe):
     def ui():
-        print('Making a {}'.format(recipe))
+        logger.info('Making a {}'.format(recipe))
         if bar.make_drink(recipe):
-            print('Your drink is ready! Please take it from the tray')
+            logger.info('Your drink is ready! Please take it from the tray')
             bar.serve()
         else:
-            print('Could not make a drink')
+            logger.info('Could not make a drink')
     return ui
 
 
-abort_btn = Button(11, lambda: bar.abort() and print('Please discard the glass contents'))  # 23
-gin_tonic_btn = Button(8, request_drink(GIN_TONIC))  # 24
-cuba_libre_btn = Button(7, request_drink(CUBA_LIBRE))  # 26
+# abort_btn = Button(11, lambda: bar.abort() and print('Please discard the glass contents'))  # 23
+# gin_tonic_btn = Button(8, request_drink(GIN_TONIC))  # 24
+# cuba_libre_btn = Button(7, request_drink(CUBA_LIBRE))  # 26
 
-Button(5, lambda: print('not assigned'))  # 29
-Button(19, lambda: print('not assigned'))  # 35
+# Button(9, lambda: print('not assigned'))  # 21
+# Button(19, lambda: print('not assigned'))  # 35
 # Button(15, lambda: print('not assigned'))  # 10
 # Button(17, lambda: print('not assigned'))  # 11
 
 
-print('Ready to make cocktails!')
+logger.info('Ready to make cocktails!')
 
 
 while True:
-    sleep(5)
+    time.sleep(5)

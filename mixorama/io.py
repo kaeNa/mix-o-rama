@@ -12,7 +12,7 @@ class Button:
             if len(w) > 0:
                 logger.warn('{} ...when trying to setup button on channel {}'.format(w[0].message, channel))
 
-        GPIO.add_event_detect(channel, GPIO.FALLING, callback=self._callback, bouncetime=400)
+        GPIO.add_event_detect(channel, GPIO.FALLING, callback=self._callback, bouncetime=200)
         self.cb = callback
 
     def _callback(self, channel):
@@ -27,8 +27,10 @@ class Valve:
             if len(w) > 0:
                 logger.warn('{} ...when trying to setup valve on channel {}'.format(w[0].message, self.channel))
 
+        self.close()
+
     def open(self):
-        GPIO.output(self.channel, 1)
+        GPIO.output(self.channel, 0)
 
     def close(self):
-        GPIO.output(self.channel, 0)
+        GPIO.output(self.channel, 1)

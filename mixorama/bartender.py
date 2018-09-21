@@ -24,13 +24,18 @@ class Bartender:
     _sm_state = BartenderState.IDLE
     _abort = None
 
-    def __init__(self, components: Dict[Component, Valve], scales: Scales):
+    def __init__(self, components: Dict[Component, Valve], compressor: Valve, scales: Scales):
         self.components = components
         self.scales = scales
+        self.compressor = compressor
 
     @sm_transition(allowed_from=BartenderState.IDLE, when_done=BartenderState.READY,
                    while_working=BartenderState.POURING)
     def make_drink(self, recipe: List[Tuple[Component, int]]):
+        for component, volume in recipe:
+            if component not in self.components:
+                raise ValueError('We do not currently have {}'.format(component.name))
+
         for component, volume in recipe:
             if self._abort:
                 return False
@@ -38,21 +43,24 @@ class Bartender:
             try:
                 self.scales.reset()
             except ScalesTimeoutException:
-                logger.info('error resetting scales')
+                logger.info('Error resetting scales')
                 raise
 
+            self.compressor.open()
             try:
                 self.components[component].open()
 
                 self.scales.wait_for_weight(volume * component.value.density)
             except ScalesTimeoutException:
-                logger.info('something is wrong with the valve')
+                logger.info('Target weight is not reached within timeout.'
+                            'Is something wrong with the valve?')
                 raise
             except WaitingForWeightAbortedException:
-                logger.info('cocktail aborted')
+                logger.info('Cocktail making aborted')
                 return False
             finally:
                 self.components[component].close()
+                self.compressor.close()
 
         return True
 

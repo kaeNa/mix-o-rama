@@ -4,6 +4,8 @@ from threading import Thread, Event
 import statistics
 import warnings
 
+from mixorama.util import make_timeout, BoolStabilizer
+
 logger = logging.getLogger(__name__)
 
 try:
@@ -29,13 +31,11 @@ except RuntimeError:
             window = []
 
             for _ in range(n):
-                v = self.counter + randint(0, 1000)
+                v = self.counter - randint(5000, 6000)
                 window.append(v)
 
             self.counter = window[-1]
             return window
-
-from mixorama.util import make_timeout
 
 
 class ScalesTimeoutException(Exception):
@@ -100,32 +100,26 @@ class Scales:
         except TimeoutError as e:
             raise ScalesTimeoutException from e
 
-    def wait_for_weight(self, target, timeout=30000, tolerance=2):
+    def wait_for_weight(self, target, timeout=30000, stable_timeout=1000):
         self._abort_event.clear()
         result_queue = Queue()
 
         def poller():
-            def value_is_in_window(v):
-                lval = target - target / 100 * tolerance
-                rval = target + target / 100 * tolerance
-                retval = abs(lval) < abs(v) < abs(rval)
-                logger.info('%f < %f < %f = %s', lval, v, rval, retval)
-                return retval
-
+            is_stable = BoolStabilizer(stable_timeout)
             time_is_out = make_timeout(timeout)
 
             v = self.measure()
-            while not value_is_in_window(v):
+            while not is_stable(v > target):
                 if self._abort_event.is_set():
                     result_queue.put(WaitingForWeightAbortedException())
                 if time_is_out():
                     result_queue.put(ScalesTimeoutException(v))
                 v = self.measure()
-                logger.debug('got measurement: %f', v)
+                logger.info('got measurement: %f', v)
 
             result_queue.put(v)
 
-        Thread(target=poller).start()
+        Thread(target=poller, daemon=True).start()
 
         logger.info('waiting for a target weight of %f', target)
         result = result_queue.get(block=True)

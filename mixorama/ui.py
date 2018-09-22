@@ -16,8 +16,8 @@ def request_drink(bartender, recipe):
 
 
 def cli_loop(menu, bartender, request_drink):
-    print('Ready to make cocktails!')
     while True:
+        print('Ready to make cocktails!')
         print('Pick one of: ')
         for c in menu:
             print(c)
@@ -27,8 +27,8 @@ def cli_loop(menu, bartender, request_drink):
             drink = menu[choice]
             print(drink.name)
             print('-' * len(drink.name))
-            print('Volume: ', drink.volume())
-            print('Strength: ', drink.strength())
+            print('Volume: %.2f' % drink.volume())
+            print('Strength: %.2f' % drink.strength())
             confirmed = input('Make it? y/n ')
             if confirmed.startswith('y'):
                 request_drink(bartender, drink)()

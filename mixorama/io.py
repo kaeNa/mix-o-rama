@@ -23,7 +23,7 @@ except RuntimeError:
     logger.warning('Could not import RPi.GPIO, using a mock!')
 
     stub = lambda name: lambda *args, **kwargs: \
-        logger.debug('[stub] '+name, *args, *[k+':'+str(v)
+        print('[stub] '+name, *args, *[k+':'+str(v)
                                               for k, v in kwargs.items()])
 
     gpio_in = gpio_out = gpio_pud_up = gpio_falling = None

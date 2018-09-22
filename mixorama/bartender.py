@@ -76,5 +76,6 @@ class Bartender:
         self.scales.reset()
         try:
             self.scales.wait_for_weight(GLASS_WEIGHT * -1, USER_TAKE_GLASS_TIMEOUT * 1000)
+            logger.info('weight lifted')
         except ScalesTimeoutException:
             logger.info('giving up waiting for the user to retrieve the glass')

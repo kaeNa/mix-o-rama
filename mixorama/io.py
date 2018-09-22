@@ -17,7 +17,7 @@ try:
     gpio_add_event_callback = GPIO.add_event_callback
     gpio_add_event_detect = GPIO.add_event_detect
     gpio_output = GPIO.output
-    gpio_cleanup = GPIO.cleanup
+    cleanup = GPIO.cleanup
 
 except RuntimeError:
     logger.warning('Could not import RPi.GPIO, using a mock!')
@@ -32,7 +32,7 @@ except RuntimeError:
     gpio_add_event_callback = stub('add_event_callback')
     gpio_add_event_detect = stub('add_event_detect')
     gpio_output = stub('output')
-    gpio_cleanup = stub('cleanup')
+    cleanup = stub('cleanup')
 
 
 class Button:

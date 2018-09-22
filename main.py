@@ -1,55 +1,24 @@
 import sys
-import time
-from RPi import GPIO
 import logging
-from mixorama.bartender import Bartender
-from mixorama.io import Button, Valve
-from mixorama.recipes import Component, GIN_TONIC, CUBA_LIBRE
-from mixorama.scales import Scales
+import yaml
 
-logging.basicConfig(stream=sys.stdout, level=logging.INFO)
-logger = logging.getLogger('mixorama')
+from mixorama.factory import create_bartender, create_bar, create_menu, create_shelf
+from mixorama.ui import cli_loop, request_drink, bind_buttons
+from mixorama.io import gpio_cleanup
 
-GPIO.setmode(GPIO.BCM)
+with open('mixorama.yaml') as cfg_file:
+    cfg = yaml.load(cfg_file)
 
-scales = Scales(4, 3)  # dout=7, sck=5
+loglevel = cfg.get('logging', {}).get('level', 'INFO')
+logging.basicConfig(stream=sys.stdout, level=loglevel)
 
-components = {
-    Component.GIN: Valve(5),  # 29
-    Component.TONIC: Valve(6),  # 31
-    Component.RUM: Valve(13),  # 33
-    Component.COLA: Valve(19),  # 35
-    Component.TEQUILA: Valve(26),  # 37
-    Component.COINTREAU: Valve(0),  # 39
-}
+shelf = create_shelf(cfg.get('shelf'))
+bar = create_bar(shelf, cfg.get('bar'))
+bartender = create_bartender(bar, cfg.get('bartender'))
+menu = create_menu(shelf, cfg.get('menu'))
+bind_buttons(menu, bartender, cfg.get('buttons', {}))
 
-bar = Bartender(components, scales)
-
-
-def request_drink(recipe):
-    def ui():
-        print('Making a {}'.format(recipe))
-        if bar.make_drink(recipe):
-            print('Your drink is ready! Please take it from the tray')
-            bar.serve()
-        else:
-            print('Could not make a drink')
-    return ui
-
-
-Button(12, lambda: bar.abort() and print('Please discard the glass contents'))  # 32
-
-Button(23, request_drink(GIN_TONIC))  # 16
-Button(24, request_drink(CUBA_LIBRE))  # 18
-Button(25, lambda: print('not assigned'))  # 22
-Button(8, lambda: print('not assigned'))  # 24
-Button(7, lambda: print('not assigned'))  # 26
-Button(1, lambda: print('not assigned'))  # 28
-
-
-logger.info('Ready to make cocktails!')
 try:
-    while True:
-        time.sleep(5)
+    cli_loop(menu, bartender, request_drink)
 finally:
-    GPIO.cleanup()
+    gpio_cleanup()

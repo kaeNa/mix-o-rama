@@ -1,0 +1,45 @@
+logging:
+  level: INFO
+
+bartender:
+  scales:
+    dout_pin: 4  # 7
+    pd_sck_pin: 3  # 5
+  compressor: 26  # 37
+
+bar:
+  Tequila: 0  # 27
+  Gin: 5  # 29
+  Rum: 13  # 31
+  Tonic: 6  # 33
+  Cola: 19  # 35
+
+buttons:
+  12: abort  # 32
+  23: GinTonic  # 16
+
+shelf:
+  Tequila:
+    strength: 40
+    density: 0.9
+  Gin:
+    strength: 40
+    density: 0.9
+  Rum:
+    strength: 40
+    density: 0.9
+  Cointreau:
+    strength: 35
+    density: 1.2
+
+menu:
+  GinTonic:
+    Gin: 70
+    Tonic: 140
+  Margarita:
+    Tequila: 35
+    Countreau: 20
+    LimeJuice: 15
+  CubaLibre:
+    Rum: 50
+    Cola: 120

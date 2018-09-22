@@ -1,35 +1,43 @@
-from enum import unique, Enum
+class Component:
+    name = 'Weird Ingridient'
 
-
-class ComponentProperties:
-    def __init__(self, density=1):
+    def __init__(self, name=None, density=1, strength=0):
+        """
+        :param density: grams per milliliter
+        :param strength: ABV, %
+        """
         self.density = density
+        self.strength = strength
+        if name:
+            self.name = name
+
+    def __str__(self):
+        return self.name
 
 
-@unique
-class Component(Enum):
-    GIN = ComponentProperties()
-    TONIC = ComponentProperties()
-    RUM = ComponentProperties()
-    COLA = ComponentProperties()
-    COINTREAU = ComponentProperties()
-    TEQUILA = ComponentProperties()
-    LIME_JUICE = ComponentProperties()
+class Recipe:
+    name = 'Mystery Booze'
+    sequence = []
+    '''List[Tuple[Component, int]]'''
 
+    def __init__(self, name=None, sequence=None):
+        self.sequence = sequence or []
+        if name:
+            self.name = name
 
-GIN_TONIC = [  # 1:2, total 345ml + ice & lime
-    (Component.GIN, 115),
-    (Component.TONIC, 230)
-]
+    def volume(self):
+        return sum([component[1] for component in self.sequence])
 
+    def weight(self):
+        return sum([c[1] * c[0].density for c in self.sequence])
 
-CUBA_LIBRE = [  # total 170 + lime
-    (Component.RUM, 50),
-    (Component.COLA, 120)
-]
+    def strength(self):
+        return sum([c[1] * c[0].strength for c in self.sequence]) \
+               / self.volume()
 
-MARGARITA = [  # total 70ml + lime
-    (Component.TEQUILA, 35),
-    (Component.COINTREAU, 20),
-    (Component.LIME_JUICE, 15)
-]
+    def __iter__(self):
+        return iter(self.sequence)
+
+    def __str__(self):
+        return "\n".join(['{} ml of {}'.format(v, str(c))
+                          for c, v in self.sequence])

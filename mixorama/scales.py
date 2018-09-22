@@ -4,11 +4,38 @@ from threading import Thread, Event
 import statistics
 import warnings
 
-from hx711 import HX711
+logger = logging.getLogger(__name__)
+
+try:
+    from hx711 import HX711
+
+except RuntimeError:
+    logger.warning('Could not import HX711, using a mock!')
+
+    from itertools import repeat
+    from random import choice, randint
+
+
+    class HX711:
+        counter = 0
+
+        def __init__(self, *args, **kwargs):
+            pass
+
+        def reset(self):
+            self.counter = 0
+
+        def get_raw_data(self, n):
+            window = []
+
+            for _ in range(n):
+                v = self.counter + randint(0, 1000)
+                window.append(v)
+
+            self.counter = window[-1]
+            return window
 
 from mixorama.util import make_timeout
-
-logger = logging.getLogger(__name__)
 
 
 class ScalesTimeoutException(Exception):
@@ -41,7 +68,7 @@ class Scales:
         with warnings.catch_warnings(record=True) as w:
             self.hx711 = HX711(dout_pin=dout_pin, pd_sck_pin=pd_sck_pin, channel=channel, gain=gain)
             if len(w) > 0:
-                logger.warn('%s ...when trying to setup scales on channel %d',
+                logger.warning('%s ...when trying to setup scales on channel %d',
                             w[0].message, pd_sck_pin if w[0].lineno == 60 else dout_pin)
 
     def reset(self, tare=None):

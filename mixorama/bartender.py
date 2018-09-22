@@ -50,7 +50,7 @@ class Bartender:
             try:
                 self.components[component].open()
 
-                self.scales.wait_for_weight(volume * component.value.density)
+                self.scales.wait_for_weight(volume * component.density)
             except ScalesTimeoutException:
                 logger.info('Target weight is not reached within timeout.'
                             'Is something wrong with the valve?')

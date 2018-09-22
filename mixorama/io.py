@@ -1,18 +1,48 @@
 import logging
 import warnings
-from RPi import GPIO
 
 logger = logging.getLogger(__name__)
+
+try:
+    from RPi import GPIO
+
+    def io_init():
+        GPIO.setmode(GPIO.BCM)
+
+    gpio_in = GPIO.IN
+    gpio_out = GPIO.OUT
+    gpio_pud_up = GPIO.PUD_UP
+    gpio_falling = GPIO.FALLING
+    gpio_setup = GPIO.setup
+    gpio_add_event_callback = GPIO.add_event_callback
+    gpio_add_event_detect = GPIO.add_event_detect
+    gpio_output = GPIO.output
+    gpio_cleanup = GPIO.cleanup
+
+except RuntimeError:
+    logger.warning('Could not import RPi.GPIO, using a mock!')
+
+    stub = lambda name: lambda *args, **kwargs: \
+        logger.debug('[stub] '+name, *args, *[k+':'+str(v)
+                                              for k, v in kwargs.items()])
+
+    gpio_in = gpio_out = gpio_pud_up = gpio_falling = None
+    io_init = stub('io_init')
+    gpio_setup = stub('gpio_setup')
+    gpio_add_event_callback = stub('add_event_callback')
+    gpio_add_event_detect = stub('add_event_detect')
+    gpio_output = stub('output')
+    gpio_cleanup = stub('cleanup')
 
 
 class Button:
     def __init__(self, channel, callback=lambda: None):
         with warnings.catch_warnings(record=True) as w:
-            GPIO.setup(channel, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+            gpio_setup(channel, gpio_in, pull_up_down=gpio_pud_up)
             if len(w) > 0:
-                logger.warn('{} ...when trying to setup button on channel {}'.format(w[0].message, channel))
+                logger.warning('{} ...when trying to setup button on channel {}'.format(w[0].message, channel))
 
-        GPIO.add_event_detect(channel, GPIO.FALLING, callback=self._callback, bouncetime=200)
+        gpio_add_event_detect(channel, gpio_falling, callback=self._callback, bouncetime=200)
         self.cb = callback
 
     def _callback(self, channel):
@@ -23,14 +53,14 @@ class Valve:
     def __init__(self, channel):
         self.channel = channel
         with warnings.catch_warnings(record=True) as w:
-            GPIO.setup(self.channel, GPIO.OUT)
+            gpio_setup(self.channel, gpio_out)
             if len(w) > 0:
-                logger.warn('{} ...when trying to setup valve on channel {}'.format(w[0].message, self.channel))
+                logger.warning('{} ...when trying to setup valve on channel {}'.format(w[0].message, self.channel))
 
         self.close()
 
     def open(self):
-        GPIO.output(self.channel, 0)
+        gpio_output(self.channel, 0)
 
     def close(self):
-        GPIO.output(self.channel, 1)
+        gpio_output(self.channel, 1)

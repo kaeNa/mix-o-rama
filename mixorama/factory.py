@@ -7,6 +7,9 @@ from mixorama.util import DefaultFactoryDict
 
 logger = logging.getLogger(__name__)
 
+class ComponentNotAvailable(Exception):
+    pass
+
 
 def create_bartender(bar, config):
     logger.debug('Initializing GPIO')
@@ -41,14 +44,18 @@ def create_bar(shelf, config):
 def create_menu(bar, config):
     recipes = {}
     for recipe_name, sequence in config.items():
+        meta = sequence.pop('meta') if 'meta' in sequence else {}
 
-        component_sequence = []
-        for component_name, volume in sequence.items():
-            if component_name not in bar:
-                logger.warning('Cannot add {} to the menu, as it is not in the bar'.format(component_name))
-            else:
+        try:
+            component_sequence = []
+            for component_name, volume in sequence.items():
+                if component_name not in bar:
+                    raise ComponentNotAvailable(component_name)
+
                 component_sequence.append((bar[component_name], volume))
 
-        recipes[recipe_name] = Recipe(recipe_name, component_sequence)
+            recipes[recipe_name] = Recipe(recipe_name, component_sequence, **meta)
+        except ComponentNotAvailable as e:
+            logger.warning('Cannot add {} to the menu, as it is not in the bar'.format(e.args[0]))
 
     return recipes

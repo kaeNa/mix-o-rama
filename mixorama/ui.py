@@ -15,7 +15,7 @@ def request_drink(bartender, recipe):
     return ui
 
 
-def cli_loop(menu, bartender, request_drink):
+def cli(menu, bartender):
     while True:
         print('Ready to make cocktails!')
         print('Pick one of: ')
@@ -36,7 +36,7 @@ def cli_loop(menu, bartender, request_drink):
             print('Unknown cocktail: ' + choice)
 
 
-def bind_buttons(menu, bartender, cfg=None):
+def bind_hw_buttons(menu, bartender, cfg):
     logger.debug('Assigning buttons')
     for btn, recpie_name in cfg.items():
         if recpie_name is False or recpie_name == 'abort':

@@ -31,7 +31,7 @@ except RuntimeError:
             window = []
 
             for _ in range(n):
-                v = self.counter - randint(5000, 6000)
+                v = self.counter - randint(50, 100)
                 window.append(v)
 
             self.counter = window[-1]
@@ -100,7 +100,7 @@ class Scales:
         except TimeoutError as e:
             raise ScalesTimeoutException from e
 
-    def wait_for_weight(self, target, timeout=30000, stable_timeout=1000):
+    def wait_for_weight(self, target, timeout=30000, stable_timeout=1000, on_progress=lambda d, s: None):
         self._abort_event.clear()
         result_queue = Queue()
 
@@ -116,6 +116,7 @@ class Scales:
                     result_queue.put(ScalesTimeoutException(v))
                 v = self.measure()
                 logger.info('got measurement: %f', v)
+                on_progress(min(v, target), target)
 
             result_queue.put(v)
 

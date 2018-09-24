@@ -1,4 +1,6 @@
 import logging
+
+from mixorama.bartender import BartenderState
 from mixorama.io import Button
 
 logger = logging.getLogger(__name__)
@@ -6,8 +8,8 @@ logger = logging.getLogger(__name__)
 
 def request_drink(bartender, recipe):
     def ui():
-        print('Making a {}'.format(recipe))
-        if bartender.make_drink(recipe):
+        print('Making a {}'.format(recipe.name))
+        if bartender.make_drink(recipe=recipe):
             print('Your drink is ready! Please take it from the tray')
             bartender.serve()
         else:
@@ -16,6 +18,12 @@ def request_drink(bartender, recipe):
 
 
 def cli(menu, bartender):
+    bartender.on_sm_transition(
+        lambda tostate, component, volume, done, target:
+            print('The Bartender is now {} {} ml of {} ({}/{})'.format(tostate.name, volume, component, done, target)),
+        BartenderState.POURING
+    )
+
     while True:
         print('Ready to make cocktails!')
         print('Pick one of: ')

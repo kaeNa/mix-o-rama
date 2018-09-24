@@ -20,10 +20,14 @@ class Recipe:
     sequence = []
     '''List[Tuple[Component, int]]'''
 
-    def __init__(self, name=None, sequence=None):
+    image: str = None
+
+    def __init__(self, name=None, sequence=None, **meta):
         self.sequence = sequence or []
         if name:
             self.name = name
+        for k, v in meta.items():
+            setattr(self, k, v)
 
     def volume(self):
         return sum([component[1] for component in self.sequence])

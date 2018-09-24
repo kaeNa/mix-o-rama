@@ -1,4 +1,6 @@
 import logging
+from typing import Dict
+
 from mixorama.bartender import Bartender
 from mixorama.io import Valve, io_init
 from mixorama.recipes import Component, Recipe
@@ -41,7 +43,7 @@ def create_bar(shelf, config):
     return bar
 
 
-def create_menu(bar, config):
+def create_menu(bar, config: Dict[str, Dict[str, int]]):
     recipes = {}
     for recipe_name, sequence in config.items():
         meta = sequence.pop('meta') if 'meta' in sequence else {}

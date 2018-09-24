@@ -1,8 +1,10 @@
+from collections import defaultdict
 from enum import Enum
 from typing import Union
 
 
 class CoreStates(Enum):
+    ALL = 0
     UNDEFINED = 1
     EXCEPTION = 2
 
@@ -13,7 +15,11 @@ class InvalidStateMachineTransition(AttributeError):
             operation, current_state, allowed_states))
 
 
-def sm_transition(allowed_from: Union[list, Enum], when_done: Enum, while_working: Enum = None, on_exception: Enum = None):
+def sm_transition(allowed_from: Union[list, Enum],
+                  when_done: Enum,
+                  while_working: Enum = None,
+                  on_exception: Enum = None):
+
     allowed_from = [allowed_from] if not type(allowed_from) in (tuple, list) else allowed_from
     on_exception = on_exception or CoreStates.EXCEPTION
 
@@ -26,16 +32,49 @@ def sm_transition(allowed_from: Union[list, Enum], when_done: Enum, while_workin
                 raise InvalidStateMachineTransition(operation_name, repr(current_state), allowed_from)
 
             if while_working is not None:
+                _notify_callbacks(self, while_working, self._sm_state, args, kwargs)
                 self._sm_state = while_working
 
             try:
                 result = f(self, *args, **kwargs)
             except Exception:
+                _notify_callbacks(self, on_exception, self._sm_state, args, kwargs)
                 self._sm_state = on_exception
                 raise
 
+            _notify_callbacks(self, when_done, self._sm_state, args, kwargs)
             self._sm_state = when_done
 
             return result
         return check_transition_and_run
     return decorate
+
+
+def sm_callbacks(cls):
+    cls._sm_callbacks = defaultdict(lambda: dict())
+    cls.on_sm_transition = _on_sm_transition
+    cls.unsubscribe_sm_transition = _unsubscribe_sm_transition
+    return cls
+
+
+def _on_sm_transition(self, callback, tostate=CoreStates.ALL):
+    self._sm_callbacks[tostate][callback] = callback
+
+
+def _unsubscribe_sm_transition(self, callback, state=None):
+    del self._sm_callbacks[state][callback]
+
+
+def _notify_callbacks(self, tostate, fromstate, args, kwargs):
+    if getattr(self, '_sm_callbacks'):
+        cb_kwargs = dict(self=self, tostate=tostate, fromstate=fromstate, args=args)
+        cb_kwargs.update(kwargs)
+
+        _notify_callback(self._sm_callbacks[CoreStates.ALL], cb_kwargs)
+        _notify_callback(self._sm_callbacks[tostate], cb_kwargs)
+
+
+def _notify_callback(cbdict, all_kwargs):
+    for cb in cbdict.values():
+        cb_kwargs = {k: all_kwargs.get(k) for k in cb.__code__.co_varnames}
+        cb(**cb_kwargs)

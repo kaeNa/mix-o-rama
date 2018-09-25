@@ -8,6 +8,8 @@ click = "*"
 "hx711" = "*"
 "RPi.GPIO" = "*"
 "PyYAML" = "*"
+"Cython" = "0.25.2"
+"kivy" = "1.10.0"
 
 [dev-packages]
 

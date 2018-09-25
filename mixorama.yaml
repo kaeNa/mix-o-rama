@@ -1,6 +1,12 @@
 logging:
   level: INFO
 
+#kivy: # https://kivy.org/doc/stable/api-kivy.config.html#module-kivy.config
+  #input:
+    #mouse: mouse
+    #mtdev_%(name)s: probesysfs,provider=mtdev
+    #hid_%(name)s: probesysfs,provider=hidinput
+
 bartender:
   scales:
     dout_pin: 4  # 7
@@ -34,6 +40,8 @@ shelf:
 
 menu:
   GinTonic:
+    meta:
+      image: '/home/syn/code/mix-o-rama/docs/GS-Martini-SN_Snapseed.jpg'
     Gin: 70
     Tonic: 140
   Margarita:
@@ -41,5 +49,7 @@ menu:
     Countreau: 20
     LimeJuice: 15
   CubaLibre:
+    meta:
+      image: '/home/syn/code/mix-o-rama/docs/cuba-libre-2v.jpg'
     Rum: 50
     Cola: 120

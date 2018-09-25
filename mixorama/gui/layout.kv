@@ -1,0 +1,95 @@
+#:kivy 1.4
+<AlignLabel@Label>:
+  text_size: self.size
+  halign: 'center'
+  valign: 'middle'
+
+<MainWidget>:
+  menu_buttons: menu_buttons
+  image: image
+  total_progress: total_progress
+  step_progress: step_progress
+  abort_btn: abort_btn
+  make_btn: make_btn
+  info_ul: info_ul
+  info_ur: info_ur
+  info_bl: info_bl
+  info_br: info_br
+
+  GridLayout:
+    cols: 2
+    padding: 15
+    spacing: 10
+
+    GridLayout:
+      cols: 3
+
+      StackLayout:
+        id: menu_buttons
+        orientation: 'lr-tb'
+        spacing: 5
+
+        #Button:
+        #  text: 'Margarita'
+        #  size_hint: 1/3, 1/8
+
+    BoxLayout:
+      orientation: 'vertical'
+      spacing: 5
+
+      AnchorLayout:
+        Image:
+          id: image
+
+      GridLayout:
+        size_hint: 1, 0.1
+        cols: 2
+        rows: 2
+
+        AlignLabel:
+          id: info_ul
+          size_hint: 0.4, 1
+          halign: 'left'
+          #text: 'Volume: 230Ml'
+        AlignLabel:
+          id: info_ur
+          size_hint: 0.6, 1
+          halign: 'right'
+          #text: 'Add: Angostura bitter, 2 dash'
+        AlignLabel:
+          id: info_bl
+          size_hint: 0.4, 1
+          halign: 'left'
+          #text: 'Strength: 13 %, ABV'
+        AlignLabel:
+          id: info_br
+          size_hint: 0.6, 1
+          halign: 'right'
+          #text: 'Garnish: lime wedge'
+
+      ProgressBar:
+        id: total_progress
+        size_hint: 1, 0.1
+        value: 0
+
+      ProgressBar:
+        id: step_progress
+        size_hint: 1, 0.1
+        value: 0
+
+      AnchorLayout:
+        anchor_x: 'right'
+        size_hint: 1, 0.2
+
+        GridLayout:
+          cols: 2
+          size_hint: 0.75, 1
+
+          AnchorLayout:
+            Button:
+              id: abort_btn
+              text: 'Abort'
+              size_hint: 0.75, 0.5
+          Button:
+            id: make_btn
+            text: 'Make!'

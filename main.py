@@ -10,6 +10,7 @@ logging.basicConfig(stream=sys.stdout, level=getattr(logging, loglevel))
 logging.error('test error')
 
 from mixorama.factory import create_bartender, create_bar, create_menu, create_shelf
+from mixorama.gui import gui, is_gui_available, config
 from mixorama.ui import cli, bind_hw_buttons
 from mixorama.io import cleanup
 
@@ -20,6 +21,12 @@ menu = create_menu(shelf, cfg.get('menu'))
 
 try:
     bind_hw_buttons(menu, bartender, cfg.get('buttons', {}))
-    cli(menu, bartender)
+
+    if is_gui_available():
+        config(cfg.get('kivy', {}))
+        gui(menu, bartender)
+    else:
+        cli(menu, bartender)
+
 finally:
     cleanup()

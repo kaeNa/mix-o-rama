@@ -4,7 +4,7 @@ import logging
 from mixorama.io import Valve
 from mixorama.recipes import Component
 from mixorama.scales import Scales, ScalesTimeoutException, WaitingForWeightAbortedException
-from mixorama.statemachine import sm_transition, sm_callbacks
+from mixorama.statemachine import sm_transition, StateMachineCallbacks, CoreStates
 
 GLASS_WEIGHT = 150  # grams
 USER_TAKE_GLASS_TIMEOUT = 60  # sec
@@ -18,11 +18,15 @@ class BartenderState(IntEnum):
     IDLE = 1
     MAKING = 2
     POURING = 4
-    READY = 8
+    POURING_PROGRESS = 8
+    READY = 16
 
 
-@sm_callbacks
-class Bartender:
+class CocktailAbortedException(Exception):
+    pass
+
+
+class Bartender(StateMachineCallbacks):
     _sm_state = BartenderState.IDLE
     _abort = None
 
@@ -41,7 +45,6 @@ class Bartender:
         for component, volume in recipe:
             if self._abort:
                 return False
-
             self._pour(component=component, volume=volume)
         return True
 
@@ -60,8 +63,9 @@ class Bartender:
 
             self.scales.wait_for_weight(
                 volume * component.density,
-                on_progress=lambda done, target:
-                    self._on_pour_progress(
+                on_progress=lambda done, volume:
+                    self._sm_state == BartenderState.POURING and
+                    self._pour_progress(
                         component=component,
                         done=done,
                         volume=volume
@@ -72,26 +76,33 @@ class Bartender:
             logger.info('Target weight is not reached within timeout.'
                         'Is something wrong with the valve?')
             raise
-        except WaitingForWeightAbortedException:
+        except WaitingForWeightAbortedException as e:
             logger.info('Cocktail making aborted')
-            return False
+            raise CocktailAbortedException from e
         finally:
             self.components[component].close()
             self.compressor.close()
 
-    @sm_transition(allowed_from=BartenderState.POURING, when_done=BartenderState.POURING)
-    def _on_pour_progress(self, component, done, volume):
+    @sm_transition(allowed_from=BartenderState.POURING, while_working=BartenderState.POURING_PROGRESS,
+                   when_done=BartenderState.POURING)
+    def _pour_progress(self, component, done, volume):
         pass
 
-    @sm_transition(allowed_from=(BartenderState.MAKING, BartenderState.POURING, BartenderState.READY),
-                   when_done=BartenderState.IDLE)
+    @sm_transition(allowed_from=BartenderState.READY, when_done=BartenderState.IDLE)
+    def serve(self):
+        self._wait_for_glass_lift()
+
+    @sm_transition(allowed_from=CoreStates.EXCEPTION, when_done=BartenderState.IDLE)
+    def discard(self):
+        self._wait_for_glass_lift()
+        self._abort = False
+
     def abort(self):
         self._abort = True
         self.scales.abort_waiting_for_weight()
         return True
 
-    @sm_transition(allowed_from=BartenderState.READY, when_done=BartenderState.IDLE)
-    def serve(self):
+    def _wait_for_glass_lift(self):
         logger.info('waiting for the user to retrieve the glass')
         self.scales.reset()
         try:

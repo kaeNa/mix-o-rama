@@ -111,9 +111,11 @@ class Scales:
             v = self.measure()
             while not is_stable(v > target):
                 if self._abort_event.is_set():
-                    result_queue.put(WaitingForWeightAbortedException())
+                    return result_queue.put(WaitingForWeightAbortedException())
+
                 if time_is_out():
-                    result_queue.put(ScalesTimeoutException(v))
+                    return result_queue.put(ScalesTimeoutException(v))
+
                 v = self.measure()
                 logger.info('got measurement: %f', v)
                 on_progress(min(v, target), target)

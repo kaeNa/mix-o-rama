@@ -9,6 +9,7 @@ from mixorama.util import DefaultFactoryDict
 
 logger = logging.getLogger(__name__)
 
+
 class ComponentNotAvailable(Exception):
     pass
 

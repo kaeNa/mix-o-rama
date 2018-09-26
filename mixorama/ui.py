@@ -17,7 +17,7 @@ def request_drink(bartender, recipe):
     return ui
 
 
-def cli(menu, bartender):
+def cli_run(menu, bartender):
     bartender.on_sm_transition(
         lambda tostate, component, volume, done, target:
             print('The Bartender is now {} {} ml of {} ({}/{})'.format(tostate.name, volume, component, done, target)),

@@ -51,13 +51,13 @@ def is_gui_available():
         return False
 
 
-def config(config: Dict[str, Dict[str, str]]):
+def gui_config(config: Dict[str, Dict[str, str]]):
     for section, section_settings in config.items():
         for option, value in section_settings.items():
             Config.set(section, option, value)
 
 
-def gui(menu, bartender):
+def gui_run(menu, bartender):
     BartenderGuiApp(menu, bartender).run()
 
 

@@ -11,7 +11,7 @@ bartender:
   scales:
     dout_pin: 4  # 7
     pd_sck_pin: 3  # 5
-  compressor: 26  # 37
+  compressor: 11 # 23
 
 bar:
   Tequila: 0  # 27
@@ -19,6 +19,7 @@ bar:
   Rum: 13  # 31
   Tonic: 6  # 33
   Cola: 19  # 35
+  Cointreau: 26  # 37
 
 buttons:
   12: abort  # 32
@@ -41,7 +42,7 @@ shelf:
 menu:
   GinTonic:
     meta:
-      image: '/home/syn/code/mix-o-rama/docs/GS-Martini-SN_Snapseed.jpg'
+      image: 'docs/GS-Martini-SN_Snapseed.jpg'
     Gin: 70
     Tonic: 140
   Margarita:
@@ -50,6 +51,6 @@ menu:
     LimeJuice: 15
   CubaLibre:
     meta:
-      image: '/home/syn/code/mix-o-rama/docs/cuba-libre-2v.jpg'
+      image: 'docs/cuba-libre-2v.jpg'
     Rum: 50
     Cola: 120

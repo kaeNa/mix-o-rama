@@ -17,30 +17,9 @@ os.environ["KIVY_NO_CONFIG"] = "1"
 from kivy.lang import Builder
 from kivy.properties import ObjectProperty
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.gridlayout import GridLayout
-from kivy.uix.image import Image
-from kivy.uix.label import Label
-from kivy.uix.progressbar import ProgressBar
 from kivy.config import Config
 from kivy.app import App
 from kivy.uix.button import Button
-
-# sudo apt-get install -y \
-#     python3-pip \
-#     build-essential \
-#     git \
-#     python3 \
-#     python3-dev \
-#     ffmpeg \
-#     libsdl2-dev \
-#     libsdl2-image-dev \
-#     libsdl2-mixer-dev \
-#     libsdl2-ttf-dev \
-#     libportmidi-dev \
-#     libswscale-dev \
-#     libavformat-dev \
-#     libavcodec-dev \
-#     zlib1g-dev
 
 
 def is_gui_available():
@@ -81,18 +60,29 @@ class TouchableButton(Button):
 
 
 class MainWidget(BoxLayout):
-    menu_buttons: GridLayout = ObjectProperty(None)
-    image: Image = ObjectProperty(None)
-    total_progress: ProgressBar = ObjectProperty(None)
-    step_progress: ProgressBar = ObjectProperty(None)
-    abort_btn: Button = ObjectProperty(None)
-    make_btn: Button = ObjectProperty(None)
-    info_ul: Label = ObjectProperty(None)
-    info_ur: Label = ObjectProperty(None)
-    info_bl: Label = ObjectProperty(None)
-    info_br: Label = ObjectProperty(None)
+    menu_buttons = ObjectProperty(None)
+    ''':type: kivy.uix.gridlayout.GridLayout'''
+    image = ObjectProperty(None)
+    ''':type: kivy.uix.image.Image'''
+    total_progress = ObjectProperty(None)
+    ''':type: kivy.uix.progressbar.ProgressBar'''
+    step_progress = ObjectProperty(None)
+    ''':type: kivy.uix.progressbar.ProgressBar'''
+    abort_btn = ObjectProperty(None)
+    ''':type: kivy.uix.button.Button'''
+    make_btn = ObjectProperty(None)
+    ''':type: kivy.uix.button.Button'''
+    info_ul = ObjectProperty(None)
+    ''':type: kivy.uix.label.Label'''
+    info_ur = ObjectProperty(None)
+    ''':type: kivy.uix.label.Label'''
+    info_bl = ObjectProperty(None)
+    ''':type: kivy.uix.label.Label'''
+    info_br = ObjectProperty(None)
+    ''':type: kivy.uix.label.Label'''
 
-    staged_recipe: Recipe = None
+    staged_recipe = None
+    ''':type: Recipe'''
 
     def __init__(self, menu: Dict[str, Recipe], bartender: Bartender, **kwargs):
         super(MainWidget, self).__init__(**kwargs)

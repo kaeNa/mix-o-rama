@@ -18,9 +18,9 @@ class Component:
 class Recipe:
     name = 'Mystery Booze'
     sequence = []
-    '''List[Tuple[Component, int]]'''
-
-    image: str = None
+    ''':type: List[Tuple[Component, int]]'''
+    image = None
+    ''':type: str'''
 
     def __init__(self, name=None, sequence=None, **meta):
         self.sequence = sequence or []

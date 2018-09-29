@@ -1,4 +1,5 @@
 import os
+import sys
 from os import path
 from threading import Thread
 from typing import Dict
@@ -12,14 +13,23 @@ from mixorama.statemachine import InvalidStateMachineTransition
 # cmdline arguments, logger and config setup are handled by mixorama
 os.environ["KIVY_NO_ARGS"] = "1"
 os.environ["KIVY_NO_CONSOLELOG"] = "1"
+os.environ["KIVY_NO_KIVY_NO_FILELOG"] = "1"
 os.environ["KIVY_NO_CONFIG"] = "1"
 
-from kivy.lang import Builder
-from kivy.properties import ObjectProperty
-from kivy.uix.boxlayout import BoxLayout
+# kivy thinks too much of itself, really...
+sys_stderr = sys.stderr
+logging_root = logging.root
+
 from kivy.config import Config
 from kivy.app import App
+from kivy.lang import Builder
+from kivy.properties import ObjectProperty
 from kivy.uix.button import Button
+from kivy.uix.boxlayout import BoxLayout
+
+# restoring fucked up python settings
+sys.stderr = sys_stderr
+logging.root = logging_root
 
 
 def is_gui_available():

@@ -90,7 +90,7 @@ class Bartender(StateMachineCallbacks):
 
     @sm_transition(allowed_from=BartenderState.READY, when_done=BartenderState.IDLE)
     def serve(self):
-        self._wait_for_glass_lift()
+        return self._wait_for_glass_lift()
 
     @sm_transition(allowed_from=CoreStates.EXCEPTION, when_done=BartenderState.IDLE)
     def discard(self):

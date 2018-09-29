@@ -75,6 +75,12 @@ def test(ctx: click.Context):
     ctx = ctx.obj
     ''':type: Context'''
 
+    print('testing scales. Put an empty glass on them and press Enter')
+    input()
+    ctx.bartender.make_drink([])
+    print('Now lift the glass')
+    ctx.bartender.serve() or print('Waiting for a glass lift has timed out')
+
     print('testing compressor')
     ctx.bartender.compressor.open()
     sleep(.3)
@@ -88,11 +94,6 @@ def test(ctx: click.Context):
         sleep(.3)
         valve.close()
         sleep(.3)
-
-    print('testing scales. Put an empty glass on them and press Enter')
-    input()
-    ctx.bartender.serve() or print('Waiting for a glass lift has timed out')
-    print('All done!')
 
 
 __name__ == '__main__' and cli()

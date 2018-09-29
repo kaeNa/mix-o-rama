@@ -109,7 +109,7 @@ class Scales:
             time_is_out = make_timeout(timeout)
 
             v = self.measure()
-            while not is_stable(v > target):
+            while not is_stable(v > target if target > 0 else v < target):
                 if self._abort_event.is_set():
                     return result_queue.put(WaitingForWeightAbortedException())
 

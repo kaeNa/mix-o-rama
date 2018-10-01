@@ -20,8 +20,8 @@ class WaitingForWeightAbortedException(Exception):
 
 
 class ScalesImpl:
-    def __init__(self, portname, *args, **kwargs):
-        self.port = Serial(portname, 115200, timeout=1)
+    def __init__(self, *args, **kwargs):
+        self.port = Serial(**kwargs)
 
     def reset(self):
         if not self.port.is_open:
@@ -85,13 +85,10 @@ def reject_outliers(data, stdev_multiplier=2):
 class Scales:
     tare = 0
 
-    def __init__(self,
-                 portname='/dev/ttyACM0',
-                 calibrated_1g=-2000.0
-                 ):
+    def __init__(self, port, calibrated_1g=-2000.0, **kwargs):
         self._abort_event = Event()
         self.calibrated_1g = calibrated_1g
-        self.scales = ScalesImpl(portname)
+        self.scales = ScalesImpl(port=port, **kwargs)
 
     def reset(self, tare=None):
         self.scales.reset()
@@ -119,7 +116,7 @@ class Scales:
         except TimeoutError as e:
             raise ScalesTimeoutException from e
 
-    def wait_for_weight(self, target, timeout=30000, stable_timeout=1000, on_progress=lambda d, s: None):
+    def wait_for_weight(self, target, timeout=20000, stable_timeout=300, on_progress=lambda d, s: None):
         self._abort_event.clear()
         result_queue = Queue()
 

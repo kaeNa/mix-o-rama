@@ -23,7 +23,7 @@ void loop() {
   LoadCell.update();
 
   //get smoothed value from data set + current calibration factor
-  if (millis() > t + 100) {
+  if (millis() > t + 60) {
     float i = LoadCell.getData();
     Serial.println(i);
     t = millis();

@@ -75,8 +75,15 @@ def test(ctx: click.Context):
     ctx = ctx.obj
     ''':type: Context'''
 
-    print('testing scales. Put an empty glass on them and press Enter')
-    input()
+    print('Testing scales')
+
+    print('Prepare a 100g weight and press enter') or input()
+    ctx.bartender.scales.reset()
+    ctx.bartender.scales.\
+        wait_for_weight(100, on_progress=lambda d, s:
+        print('scales: {}/{}'.format(d, s)))
+
+    print('Put an empty glass on them and press Enter') or input()
     ctx.bartender.make_drink([])
     print('Now lift the glass')
     ctx.bartender.serve() or print('Waiting for a glass lift has timed out')

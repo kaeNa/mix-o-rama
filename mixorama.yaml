@@ -9,8 +9,8 @@ logging:
 
 bartender:
   scales:
-    dout_pin: 4  # 7
-    pd_sck_pin: 3  # 5
+    portname: /dev/ttyACM0 # USB CDC Serial for debugging on PC
+    #portname: /dev/ttyS0 # RPi pins 14,15
   compressor: 11 # 23
 
 bar:

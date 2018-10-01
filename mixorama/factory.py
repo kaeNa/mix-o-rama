@@ -16,7 +16,7 @@ class ComponentNotAvailable(Exception):
 
 def create_bartender(bar, config):
     logger.debug('Initializing scales')
-    scales = Scales(**config.get('scales', dict(dout_pin=4,  pd_sck_pin=3)))  # dout=7, sck=5
+    scales = Scales(**config.get('scales', dict(portname='/dev/ttyACM0')))  # dout=7, sck=5
 
     logger.debug('Initializing compressor')
     compressor = Valve(config.get('compressor', 26))  # 37

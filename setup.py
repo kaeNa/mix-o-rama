@@ -18,7 +18,7 @@ install_requires = [
     'python_version>="3.5"',
     'attrs',
     'click',
-    'hx711',
+    'pyserial',
     'RPi.GPIO',
     'PyYAML',
     'kivy==1.10.1',

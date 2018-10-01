@@ -1,24 +1,59 @@
 import logging
+import os
 from multiprocessing import Queue
 from threading import Thread, Event
 import statistics
-import warnings
+
+from serial import Serial
 
 from mixorama.util import make_timeout, BoolStabilizer
 
 logger = logging.getLogger(__name__)
 
-try:
-    from hx711 import HX711
 
-except RuntimeError:
-    logger.warning('Could not import HX711, using a mock!')
-
-    from itertools import repeat
-    from random import choice, randint
+class ScalesTimeoutException(Exception):
+    pass
 
 
-    class HX711:
+class WaitingForWeightAbortedException(Exception):
+    pass
+
+
+class ScalesImpl:
+    def __init__(self, portname, *args, **kwargs):
+        self.port = Serial(portname, 115200, timeout=1)
+
+    def reset(self):
+        if not self.port.is_open:
+            self.port.open()
+
+        self.port.write('c1'.encode('ascii'))
+        with self.port as p:
+            l = 'waiting'
+            while 'complete' not in l:
+                logger.debug('serial scales: %s', l)
+                l = p.readline().decode('ascii')
+
+    def get_raw_data(self, n):
+        data = []
+        if not self.port.is_open:
+            self.port.open()
+
+        with self.port as p:
+            for _ in range(n):
+                l = p.readline().decode('ascii')
+                if l.startswith('#'):
+                    continue
+                data.append(float(l))
+        return data
+
+
+if 'MIXORAMA_MOCK_SCALES' in os.environ:
+    from random import randint
+
+    logger.warning('Using mocked scales!')
+
+    class MockScalesImpl:
         counter = 0
 
         def __init__(self, *args, **kwargs):
@@ -37,13 +72,7 @@ except RuntimeError:
             self.counter = window[-1]
             return window
 
-
-class ScalesTimeoutException(Exception):
-    pass
-
-
-class WaitingForWeightAbortedException(Exception):
-    pass
+    ScalesImpl = MockScalesImpl
 
 
 def reject_outliers(data, stdev_multiplier=2):
@@ -57,33 +86,23 @@ class Scales:
     tare = 0
 
     def __init__(self,
-                 dout_pin=5,
-                 pd_sck_pin=6,
-                 channel='A',
-                 gain=128,
+                 portname='/dev/ttyACM0',
                  calibrated_1g=-2000.0
                  ):
         self._abort_event = Event()
         self.calibrated_1g = calibrated_1g
-        with warnings.catch_warnings(record=True) as w:
-            self.hx711 = HX711(dout_pin=dout_pin, pd_sck_pin=pd_sck_pin, channel=channel, gain=gain)
-            if len(w) > 0:
-                logger.warning('%s ...when trying to setup scales on channel %d',
-                            w[0].message, pd_sck_pin if w[0].lineno == 60 else dout_pin)
+        self.scales = ScalesImpl(portname)
 
     def reset(self, tare=None):
-        self.hx711.reset()   # Before we start, reset the HX711 (not obligate)
+        self.scales.reset()
         self.tare = tare or self._raw_measure()
         logger.info('set tare to %f', self.tare)
 
     def _raw_measure(self):
-        measures = self.hx711.get_raw_data(6)
+        measures = self.scales.get_raw_data(6)
         logger.debug('received measures at: %s', measures)
 
-        no_spikes = reject_outliers(measures)
-        logger.debug('removed spikes: %s', no_spikes)
-
-        mean = statistics.mean(no_spikes)
+        mean = statistics.mean(measures)
         logger.debug('mean measurements: %f', mean)
         return mean
 

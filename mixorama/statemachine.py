@@ -83,5 +83,5 @@ def function_args(cb):
 
 def _notify_callback(cbdict, all_kwargs):
     for cb in cbdict.values():
-        cb_kwargs = {k: all_kwargs.get(k) for k in function_args(cb)}
+        cb_kwargs = {k: all_kwargs[k] for k in function_args(cb) if k in all_kwargs}
         cb(**cb_kwargs)

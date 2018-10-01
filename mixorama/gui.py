@@ -104,8 +104,8 @@ class MainWidget(BoxLayout):
             IDLE=self.on_idle,
             MAKING=self.on_making,
             READY=self.on_ready,
-            POURING=self.on_pouring,
             POURING_PROGRESS=self.on_pouring_progress,
+            ABORTED=self.on_abort
         )
 
         self.build_cocktail_buttons(menu)
@@ -145,13 +145,19 @@ class MainWidget(BoxLayout):
 
     def on_make_btn_press(self, target):
         if self.staged_recipe:
+            recipe_components = list(dict(self.staged_recipe.sequence).keys())
+
+            def on_pouring(component):
+                progress = recipe_components.index(component) + 1 / len(self.menu)
+                self.total_progress.value = progress * 100
+
+            self.bartender.on_sm_transitions(enum=BartenderState, POURING=on_pouring)
 
             def maker():
                 try:
                     self.bartender.make_drink(self.staged_recipe.sequence)
                     self.bartender.serve()
                 except CocktailAbortedException:
-                    self.on_abort()
                     self.bartender.discard()
 
             Thread(daemon=True, target=maker).start()
@@ -166,16 +172,13 @@ class MainWidget(BoxLayout):
         self.make_btn.disabled = True
         self.abort_btn.disabled = False
         self.info_br.text = 'Making your drink ...'
+        self.step_progress.value = 0
 
     def on_ready(self):
         self.info_br.text = 'Take your drink'
 
     def on_abort(self):
         self.info_br.text = 'Cocktail aborted. Please dump the glass contents'
-
-    def on_pouring(self, component):
-        progress = list(dict(self.staged_recipe.sequence).keys()).index(component) + 1 / len(self.menu)
-        self.total_progress.value = progress * 100
 
     def on_pouring_progress(self, done, volume):
         self.step_progress.value = done / volume * 100

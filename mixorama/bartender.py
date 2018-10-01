@@ -73,10 +73,10 @@ class Bartender(StateMachineCallbacks):
                     )
             )
 
-        except ScalesTimeoutException:
-            logger.info('Target weight is not reached within timeout.'
-                        'Is something wrong with the valve?')
-            raise
+        except ScalesTimeoutException as e:
+            logger.exception('Target weight is not reached within timeout. '
+                             'Is something wrong with the valve?')
+            raise CocktailAbortedException from e
         except WaitingForWeightAbortedException as e:
             logger.info('Cocktail making aborted')
             raise CocktailAbortedException from e

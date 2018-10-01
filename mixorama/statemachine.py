@@ -60,7 +60,8 @@ class StateMachineCallbacks:
         del self._sm_callbacks[state][callback]
 
     def on_sm_transitions(self, map=None, enum: Enum=None, **kwargs):
-        map = map or {enum[k]: cb for k, cb in kwargs.items()}
+        map = map or {}
+        map.update({enum[k]: cb for k, cb in kwargs.items()})
 
         for state, cb in map.items():
             self.on_sm_transition(cb, state)

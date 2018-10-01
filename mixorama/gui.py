@@ -113,6 +113,7 @@ class MainWidget(BoxLayout):
         self.make_btn.bind(on_press=self.on_make_btn_press)
 
         self.on_idle()
+        self.stage_recipe(list(menu.values())[0])
 
     def build_cocktail_buttons(self, menu):
         for key, recipe in menu.items():

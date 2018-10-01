@@ -13,12 +13,14 @@ from mixorama.statemachine import InvalidStateMachineTransition
 # cmdline arguments, logger and config setup are handled by mixorama
 os.environ["KIVY_NO_ARGS"] = "1"
 os.environ["KIVY_NO_CONSOLELOG"] = "1"
-os.environ["KIVY_NO_KIVY_NO_FILELOG"] = "1"
+os.environ["KIVY_NO_FILELOG"] = "1"
 os.environ["KIVY_NO_CONFIG"] = "1"
 
 # kivy thinks too much of itself, really...
 sys_stderr = sys.stderr
 logging_root = logging.root
+kivy_logger_setlevel = logging.getLogger('kivy').setLevel
+logging.getLogger('kivy').setLevel = lambda level: None
 
 from kivy.config import Config
 from kivy.app import App
@@ -30,6 +32,7 @@ from kivy.uix.boxlayout import BoxLayout
 # restoring fucked up python settings
 sys.stderr = sys_stderr
 logging.root = logging_root
+logging.getLogger('kivy').setLevel = kivy_logger_setlevel
 
 
 def is_gui_available():

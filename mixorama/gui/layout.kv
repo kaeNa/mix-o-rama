@@ -38,11 +38,12 @@
       spacing: 5
 
       AnchorLayout:
+        size_hint: 1, 0.5
         Image:
           id: image
 
       GridLayout:
-        size_hint: 1, 0.1
+        size_hint: 1, 0.2
         cols: 2
         rows: 2
 
@@ -69,12 +70,12 @@
 
       ProgressBar:
         id: total_progress
-        size_hint: 1, 0.1
+        size_hint: 1, 0.05
         value: 0
 
       ProgressBar:
         id: step_progress
-        size_hint: 1, 0.1
+        size_hint: 1, 0.05
         value: 0
 
       AnchorLayout:

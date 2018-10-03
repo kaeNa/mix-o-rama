@@ -1,16 +1,19 @@
 logging:
   level: INFO
 
-#kivy: # https://kivy.org/doc/stable/api-kivy.config.html#module-kivy.config
-  #input:
+kivy: # https://kivy.org/doc/stable/api-kivy.config.html#module-kivy.config
+  input:
     #mouse: mouse
-    #mtdev_%(name)s: probesysfs,provider=mtdev
+    mtdev_%(name)s: probesysfs,provider=mtdev
     #hid_%(name)s: probesysfs,provider=hidinput
 
 bartender:
   scales:
-    port: /dev/ttyACM0 # USB CDC Serial for debugging on PC
-    #port: /dev/ttyS0 # RPi pins 14,15
+    #port: /dev/ttyACM0 # USB CDC Serial for debugging on PC
+    port: /dev/serial0 # RPi pins 14,15
+    baudrate: 115200
+    timeout: 3000
+    mock: True
   compressor: 11 # 23
 
 bar:
@@ -21,9 +24,9 @@ bar:
   Cola: 19  # 35
   Cointreau: 26  # 37
 
-buttons:
-  12: abort  # 32
-  23: GinTonic  # 16
+#buttons:
+#  12: abort  # 32
+#  23: GinTonic  # 16
 
 shelf:
   Tequila:

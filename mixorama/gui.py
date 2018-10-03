@@ -148,14 +148,6 @@ class MainWidget(BoxLayout):
 
     def on_make_btn_press(self, target):
         if self.staged_recipe:
-            recipe_components = list(dict(self.staged_recipe.sequence).keys())
-
-            def on_pouring(component):
-                progress = recipe_components.index(component) + 1 / len(self.menu)
-                self.total_progress.value = progress * 100
-
-            self.bartender.on_sm_transitions(enum=BartenderState, POURING=on_pouring)
-
             def maker():
                 try:
                     self.bartender.make_drink(self.staged_recipe.sequence)
@@ -183,5 +175,7 @@ class MainWidget(BoxLayout):
     def on_abort(self):
         self.info_br.text = 'Cocktail aborted. Please dump the glass contents'
 
-    def on_pouring_progress(self, done, volume):
+    def on_pouring_progress(self, recipe, component, done, volume):
+        recipe_progress = [c[0] for c in recipe].index(component) + 1 / len(recipe)
+        self.total_progress.value = recipe_progress * 100
         self.step_progress.value = done / volume * 100

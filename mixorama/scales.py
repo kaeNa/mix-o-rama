@@ -2,6 +2,7 @@ import logging
 import os
 from multiprocessing import Queue
 from threading import Thread, Event
+from random import randint
 import statistics
 
 from serial import Serial
@@ -24,15 +25,17 @@ class ScalesImpl:
         self.port = Serial(**kwargs)
 
     def reset(self):
+        logger.debug('resetting scales')
         if not self.port.is_open:
             self.port.open()
+            logger.debug('port open')
 
         self.port.write('c1'.encode('ascii'))
         with self.port as p:
-            l = 'waiting'
-            while 'complete' not in l:
-                logger.debug('serial scales: %s', l)
-                l = p.readline().decode('ascii')
+            line = 'readline()'
+            while 'complete' not in line:
+                logger.debug('serial scales: %s', line)
+                line = p.readline().decode('ascii')
 
     def get_raw_data(self, n):
         data = []
@@ -48,31 +51,24 @@ class ScalesImpl:
         return data
 
 
-if 'MIXORAMA_MOCK_SCALES' in os.environ:
-    from random import randint
+class MockScalesImpl:
+    counter = 0
 
-    logger.warning('Using mocked scales!')
+    def __init__(self, *args, **kwargs):
+        pass
 
-    class MockScalesImpl:
-        counter = 0
+    def reset(self):
+        self.counter = 0
 
-        def __init__(self, *args, **kwargs):
-            pass
+    def get_raw_data(self, n):
+        window = []
 
-        def reset(self):
-            self.counter = 0
+        for _ in range(n):
+            v = self.counter - randint(50, 100)
+            window.append(v)
 
-        def get_raw_data(self, n):
-            window = []
-
-            for _ in range(n):
-                v = self.counter - randint(50, 100)
-                window.append(v)
-
-            self.counter = window[-1]
-            return window
-
-    ScalesImpl = MockScalesImpl
+        self.counter = window[-1]
+        return window
 
 
 def reject_outliers(data, stdev_multiplier=2):
@@ -88,7 +84,12 @@ class Scales:
     def __init__(self, port, calibrated_1g=-2000.0, **kwargs):
         self._abort_event = Event()
         self.calibrated_1g = calibrated_1g
-        self.scales = ScalesImpl(port=port, **kwargs)
+
+        if 'MOCK_SCALES' in os.environ:
+            logger.warning('Using mocked scales!')
+            self.scales = MockScalesImpl()
+        else:
+            self.scales = ScalesImpl(port=port, **kwargs)
 
     def reset(self, tare=None):
         self.scales.reset()

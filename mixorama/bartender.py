@@ -44,12 +44,12 @@ class Bartender(StateMachineCallbacks):
                 raise ValueError('We do not currently have {}'.format(component.name))
 
         for component, volume in recipe:
-            self._pour(component=component, volume=volume)
+            self._pour(recipe=recipe, component=component, volume=volume)
         return True
 
     @sm_transition(allowed_from=BartenderState.MAKING, while_working=BartenderState.POURING,
                    when_done=BartenderState.MAKING, on_exception=BartenderState.ABORTED)
-    def _pour(self, component, volume):
+    def _pour(self, recipe, component, volume):
         try:
             self.scales.reset()
         except ScalesTimeoutException:
@@ -67,6 +67,7 @@ class Bartender(StateMachineCallbacks):
                 on_progress=lambda done, volume:
                     self._sm_state == BartenderState.POURING and
                     self._pour_progress(
+                        recipe=recipe,
                         component=component,
                         done=done,
                         volume=volume
@@ -86,7 +87,7 @@ class Bartender(StateMachineCallbacks):
 
     @sm_transition(allowed_from=BartenderState.POURING, while_working=BartenderState.POURING_PROGRESS,
                    when_done=BartenderState.POURING)
-    def _pour_progress(self, component, done, volume):
+    def _pour_progress(self, recipe, component, done, volume):
         pass
 
     @sm_transition(allowed_from=BartenderState.READY, when_done=BartenderState.IDLE)

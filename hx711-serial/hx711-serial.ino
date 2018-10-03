@@ -26,7 +26,7 @@ void loop() {
   LoadCell.update();
 
   //get smoothed value from data set + current calibration factor
-  if (millis() > t + 60) {
+  if (millis() > t + 90) {
     float i = LoadCell.getData();
     Serial.println(i);
     t = millis();
@@ -42,8 +42,8 @@ void loop() {
     }
     if (inByte == 'c'){
       int parsedInt = Serial.parseInt();
-      Serial.println("#calibration complete at " + String(parsedInt));
       LoadCell.setCalFactor(parsedInt);
+      Serial.println("#calibration complete at " + String(parsedInt));
     }
   }
 

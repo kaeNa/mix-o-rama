@@ -1,4 +1,5 @@
 from enum import IntEnum, unique
+from time import sleep
 from typing import List, Dict, Tuple
 import logging
 from mixorama.io import Valve
@@ -8,7 +9,7 @@ from mixorama.statemachine import sm_transition, StateMachineCallbacks
 
 GLASS_WEIGHT = 150  # grams
 USER_TAKE_GLASS_TIMEOUT = 60  # sec
-
+MEASURING_INERTIA = 10  # grams, that the scales don't see when the valve closes
 
 logger = logging.getLogger(__name__)
 
@@ -60,10 +61,13 @@ class Bartender(StateMachineCallbacks):
         try:
             self.components[component].open()
 
+            target_weight = volume * component.density
+            target_weight -= MEASURING_INERTIA  # the pouring system has inertia...
+
             if self._abort:
                 raise CocktailAbortedException()
             self.scales.wait_for_weight(
-                volume * component.density,
+                target_weight,
                 on_progress=lambda done, volume:
                     self._sm_state == BartenderState.POURING and
                     self._pour_progress(
@@ -82,8 +86,9 @@ class Bartender(StateMachineCallbacks):
             logger.info('Cocktail making aborted')
             raise CocktailAbortedException from e
         finally:
-            self.components[component].close()
             self.compressor.close()
+            sleep(0.5)
+            self.components[component].close()
 
     @sm_transition(allowed_from=BartenderState.POURING, while_working=BartenderState.POURING_PROGRESS,
                    when_done=BartenderState.POURING)

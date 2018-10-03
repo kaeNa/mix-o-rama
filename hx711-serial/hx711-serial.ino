@@ -1,5 +1,8 @@
 #include "HX711_ADC.h"
 
+// Using hardware serial, not USB CDC
+#define Serial Serial1
+
 //HX711 constructor (dout pin, sck pin)
 HX711_ADC LoadCell(10, 11);
 

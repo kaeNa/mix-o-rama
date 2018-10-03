@@ -95,7 +95,7 @@ class Bartender(StateMachineCallbacks):
     def _pour_progress(self, recipe, component, done, volume):
         pass
 
-    @sm_transition(allowed_from=BartenderState.READY, when_done=BartenderState.IDLE)
+    @sm_transition(allowed_from=BartenderState.READY, when_done=BartenderState.IDLE, on_exception=BartenderState.ABORTED)
     def serve(self):
         return self._wait_for_glass_lift()
 
@@ -115,5 +115,9 @@ class Bartender(StateMachineCallbacks):
             self.scales.wait_for_weight(GLASS_WEIGHT * -1, USER_TAKE_GLASS_TIMEOUT * 1000)
             logger.info('weight lifted')
             return True
-        except ScalesTimeoutException:
+        except ScalesTimeoutException as e:
             logger.info('giving up waiting for the user to retrieve the glass')
+            raise CocktailAbortedException() from e
+        except WaitingForWeightAbortedException as e:
+            logger.info('user aborted the serve')
+            raise CocktailAbortedException() from e

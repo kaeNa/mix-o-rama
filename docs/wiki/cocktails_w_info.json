@@ -1,0 +1,896 @@
+[
+  {
+    "name": "Bacardi cocktail",
+    "url": "https://en.wikipedia.org/wiki/Bacardi_cocktail",
+    "selection2": [
+      {
+        "infobox_key": "Type",
+        "infobox_value": "Cocktail"
+      },
+      {
+        "infobox_key": "Primary alcohol by volume",
+        "infobox_value": "Rum"
+      },
+      {
+        "infobox_key": "Served",
+        "infobox_value": "Straight up; without ice"
+      },
+      {
+        "infobox_key": "Standard garnish",
+        "infobox_value": "Lime"
+      },
+      {
+        "infobox_key": "Standard drinkware",
+        "infobox_value": "Cocktail glass"
+      },
+      {
+        "infobox_key": "IBA specified\ningredients",
+        "infobox_value": "4.5 cl white rum\n2 cl lime juice\n1 cl grenadine syrup"
+      },
+      {
+        "infobox_key": "Preparation",
+        "infobox_value": "Shake together with ice. Strain into glass and serve"
+      },
+      {
+        "infobox_key": "Timing",
+        "infobox_value": "Before dinner"
+      }
+    ]
+  },
+  {
+    "name": "Barracuda (cocktail)",
+    "url": "https://en.wikipedia.org/wiki/Barracuda_(cocktail)",
+    "selection2": [
+      {
+        "infobox_key": "Type",
+        "infobox_value": "Cocktail"
+      },
+      {
+        "infobox_key": "Primary alcohol by volume",
+        "infobox_value": "Rum"
+      },
+      {
+        "infobox_key": "Served",
+        "infobox_value": "Straight up; without ice"
+      },
+      {
+        "infobox_key": "Standard drinkware",
+        "infobox_value": "Margarita glass"
+      },
+      {
+        "infobox_key": "IBA specified\ningredients",
+        "infobox_value": "4.5 cl Gold rum\n1.5 cl Galliano\n6 cl Pineapple juice\n1 dash fresh lime juice\nTop with Prosecco"
+      },
+      {
+        "infobox_key": "Preparation",
+        "infobox_value": "Shake pour ingredients with ice. Strain into glass, top with Sparkling wine."
+      }
+    ]
+  },
+  {
+    "name": "Between the Sheets (cocktail)",
+    "url": "https://en.wikipedia.org/wiki/Between_the_Sheets_(cocktail)",
+    "selection2": [
+      {
+        "infobox_key": "Type",
+        "infobox_value": "Cocktail"
+      },
+      {
+        "infobox_key": "Primary alcohol by volume",
+        "infobox_value": "Cognac\nRum\nTriple sec"
+      },
+      {
+        "infobox_key": "Served",
+        "infobox_value": "Straight up; without ice"
+      },
+      {
+        "infobox_key": "Standard drinkware",
+        "infobox_value": "Cocktail glass"
+      },
+      {
+        "infobox_key": "IBA specified\ningredients",
+        "infobox_value": "3 cl white rum\n3 cl cognac\n3 cl triple sec\n2 cl fresh lemon juice"
+      },
+      {
+        "infobox_key": "Preparation",
+        "infobox_value": "Pour all ingredients into shaker with ice cubes, shake, strain into chilled cocktail glass."
+      },
+      {
+        "infobox_key": "Timing",
+        "infobox_value": "All Day"
+      }
+    ]
+  },
+  {
+    "name": "Blue Hawaii (drink)",
+    "url": "https://en.wikipedia.org/wiki/Blue_Hawaii_(drink)",
+    "selection2": [
+      {
+        "infobox_key": "Type",
+        "infobox_value": "Mixed drink"
+      },
+      {
+        "infobox_key": "Primary alcohol by volume",
+        "infobox_value": "Vodka\nRum\nCuraçao"
+      },
+      {
+        "infobox_key": "Served",
+        "infobox_value": "On the rocks; poured over ice"
+      },
+      {
+        "infobox_key": "Standard garnish",
+        "infobox_value": "pineapple or orange quarter slice, maraschino cherry"
+      },
+      {
+        "infobox_key": "Standard drinkware",
+        "infobox_value": "Hurricane glass"
+      },
+      {
+        "infobox_key": "Commonly used ingredients",
+        "infobox_value": "2 cl light rum\n2 cl vodka\n1.5 cl Blue Curaçao\n9 cl pineapple juice, unsweetened\n3 cl Sour mix"
+      },
+      {
+        "infobox_key": "Preparation",
+        "infobox_value": "Combine all ingredients with ice, stir or shake, then pour into a hurricane glass with the ice. For garnish score pineapple or orange slice with a knife and insert onto rim of glass; optionally use toothpick or cocktail umbrella to spear maraschino cherry through center and attach to top of fruit slice; otherwise float cherry on top of ice!"
+      },
+      {
+        "infobox_key": "Notes",
+        "infobox_value": "For best results do not use bottled Sweet and Sour mix, but rather make your own at the bar with fresh citrus juice and simple syrup. This advice applies to any drink that calls for Sweet and Sour."
+      }
+    ]
+  },
+  {
+    "name": "Brass Monkey (cocktail)",
+    "url": "https://en.wikipedia.org/wiki/Brass_Monkey_(cocktail)",
+    "selection2": [
+      {
+        "infobox_key": "Type",
+        "infobox_value": "Cocktail"
+      },
+      {
+        "infobox_key": "Served",
+        "infobox_value": "On the rocks; poured over ice"
+      },
+      {
+        "infobox_key": "Standard drinkware",
+        "infobox_value": "Highball glass"
+      },
+      {
+        "infobox_key": "Commonly used ingredients",
+        "infobox_value": "One part dark rum\nOne part vodka\nOne part orange juice"
+      },
+      {
+        "infobox_key": "Preparation",
+        "infobox_value": "Stir together and serve over ice."
+      }
+    ]
+  },
+  {
+    "name": "Bumbo",
+    "url": "https://en.wikipedia.org/wiki/Bumbo",
+    "selection2": [
+      {
+        "infobox_key": "Type",
+        "infobox_value": "Cocktail"
+      },
+      {
+        "infobox_key": "Primary alcohol by volume",
+        "infobox_value": "Rum"
+      },
+      {
+        "infobox_key": "Served",
+        "infobox_value": "Straight up; without ice"
+      },
+      {
+        "infobox_key": "Standard garnish",
+        "infobox_value": "Nutmeg"
+      },
+      {
+        "infobox_key": "Standard drinkware",
+        "infobox_value": "Old Fashioned glass"
+      },
+      {
+        "infobox_key": "Commonly used ingredients",
+        "infobox_value": "2 ounces rum\n1 ounce water\n2 sugar cubes\nSprinkle ​1⁄4 teaspoon to taste cinnamon\nSprinkle ​1⁄4 teaspoon to taste nutmeg"
+      },
+      {
+        "infobox_key": "Preparation",
+        "infobox_value": "Mix and garnish."
+      }
+    ]
+  },
+  {
+    "name": "Bushwacker (cocktail)",
+    "url": "https://en.wikipedia.org/wiki/Bushwacker_(cocktail)",
+    "selection2": [
+      {
+        "infobox_key": "Type",
+        "infobox_value": "Cocktail"
+      },
+      {
+        "infobox_key": "Served",
+        "infobox_value": "straight up"
+      },
+      {
+        "infobox_key": "Standard garnish",
+        "infobox_value": "Maraschino Cherry"
+      },
+      {
+        "infobox_key": "Standard drinkware",
+        "infobox_value": "Hurricane Glass"
+      },
+      {
+        "infobox_key": "Commonly used ingredients",
+        "infobox_value": "1 ounce Dark Rum\n1 ounce Kahlúa\n1 ounce Dark Crème de Cacao\n2 ounces Cream of Coconut\n2 ounces Milk or Half & Half\n1 cup ice"
+      },
+      {
+        "infobox_key": "Preparation",
+        "infobox_value": "Blend all the ingredients together in a blender, including the ice, and then strain into a hurricane glass. Place cherry on top of the drink as a garnish and serve. Whipped cream can also be added as a garnish to the top of the drink before the cherry.[1]"
+      },
+      {
+        "infobox_key": "Notes",
+        "infobox_value": "The Bushwacker is often made using many other types of liquors and spirits as there are dozens of variations on this cocktail, some of which include the addition of Bacardi Rum, Vodka, Amaretto, and Baileys Irish Cream, as well as using nutmeg as a garnish."
+      }
+    ]
+  },
+  {
+    "name": "Cojito",
+    "url": "https://en.wikipedia.org/wiki/Cojito",
+    "selection2": [
+      {
+        "infobox_key": "Type",
+        "infobox_value": "Cocktail"
+      },
+      {
+        "infobox_key": "Primary alcohol by volume",
+        "infobox_value": "Rum"
+      },
+      {
+        "infobox_key": "Served",
+        "infobox_value": "straight up in a cocktail glass"
+      },
+      {
+        "infobox_key": "Standard garnish",
+        "infobox_value": "Trimmed coconut and mint leaf"
+      },
+      {
+        "infobox_key": "Standard drinkware",
+        "infobox_value": "Cocktail glass"
+      },
+      {
+        "infobox_key": "Commonly used ingredients",
+        "infobox_value": "15ml of white rum\n5ml Malibu\n5ml lime juice\nMint leaves\n1 sprig of mint"
+      },
+      {
+        "infobox_key": "Preparation",
+        "infobox_value": "In a shaker add white rum, Malibu, lime juice, some mint leaves and crushed ice, garnish with the sprig of mint."
+      }
+    ]
+  },
+  {
+    "name": "Cuban Sunset",
+    "url": "https://en.wikipedia.org/wiki/Cuban_Sunset",
+    "selection2": [
+      {
+        "infobox_key": "Type",
+        "infobox_value": "Mixed drink"
+      },
+      {
+        "infobox_key": "Served",
+        "infobox_value": "on the rocks, poured over ice"
+      },
+      {
+        "infobox_key": "Standard garnish",
+        "infobox_value": "Lemon slice"
+      },
+      {
+        "infobox_key": "Standard drinkware",
+        "infobox_value": "Highball glass"
+      },
+      {
+        "infobox_key": "Commonly used ingredients",
+        "infobox_value": "4.5 cl (3 parts) rum (preferably white rum)\n9 cl (6 parts) carbonated lime soda\n4 cl (2 parts) lemonade\n4 cl (2 parts) guava nectar\n2 cl (1.5 parts) grenadine syrup\nGarnish with lemon slice"
+      },
+      {
+        "infobox_key": "Preparation",
+        "infobox_value": "Fill highball (tall) glass with ice. Mix lime soda, lemonade, guava nectar, and grenadine syrup together to form a mixture. Pour rum into glasses over ice, then evenly layer the guava mixture over the rum. Mix as desired. Garnish with a half-slice of lemon.[1]"
+      },
+      {
+        "infobox_key": "Notes",
+        "infobox_value": "Lemonade or lime soda can be replaced with non-carbonated beverages based on preference. The traditional Cuban version of the cocktail does not include grenadine, replacing it with an equivalent amount (2 cl, 1.5 parts) of extra guava nectar. Guava nectar can be replaced with boiled-down guava juice thickened with sugar for a more watery cocktail.[1]"
+      }
+    ]
+  },
+  {
+    "name": "Daiquiri",
+    "url": "https://en.wikipedia.org/wiki/Daiquiri",
+    "selection2": [
+      {
+        "infobox_key": "Type",
+        "infobox_value": "Cocktail"
+      },
+      {
+        "infobox_key": "Primary alcohol by volume",
+        "infobox_value": "Rum"
+      },
+      {
+        "infobox_key": "Served",
+        "infobox_value": "Straight up; without ice"
+      },
+      {
+        "infobox_key": "Standard drinkware",
+        "infobox_value": "Cocktail glass"
+      },
+      {
+        "infobox_key": "IBA specified\ningredients",
+        "infobox_value": "4.5 cl / 1.5oz (9 parts) white rum\n2.5 cl / 5/6 oz (5 parts) lime juice\n1.5 cl / 1/2 oz (3 parts) simple syrup"
+      },
+      {
+        "infobox_key": "Preparation",
+        "infobox_value": "Pour all ingredients into shaker with ice cubes. Shake well. Double Strain in chilled cocktail glass."
+      },
+      {
+        "infobox_key": "Timing",
+        "infobox_value": "Happy Hour / Summer drink"
+      }
+    ]
+  },
+  {
+    "name": "Dark 'n' Stormy",
+    "url": "https://en.wikipedia.org/wiki/Dark_%27n%27_Stormy",
+    "selection2": [
+      {
+        "infobox_key": "Type",
+        "infobox_value": "Mixed drink"
+      },
+      {
+        "infobox_key": "Primary alcohol by volume",
+        "infobox_value": "Rum"
+      },
+      {
+        "infobox_key": "Served",
+        "infobox_value": "On the rocks; poured over ice"
+      },
+      {
+        "infobox_key": "Standard garnish",
+        "infobox_value": "Lime wedge"
+      },
+      {
+        "infobox_key": "Standard drinkware",
+        "infobox_value": "Highball glass"
+      },
+      {
+        "infobox_key": "IBA specified\ningredients",
+        "infobox_value": "6 cl dark rum\n10 cl ginger beer"
+      },
+      {
+        "infobox_key": "Preparation",
+        "infobox_value": "Fill glass with ice, add rum and top with ginger beer. Garnish with lime wedge."
+      }
+    ]
+  },
+  {
+    "name": "Donkey punch (cocktail)",
+    "url": "https://en.wikipedia.org/wiki/Donkey_punch_(cocktail)",
+    "selection2": [
+      {
+        "infobox_key": "Type",
+        "infobox_value": "Mixed drink"
+      },
+      {
+        "infobox_key": "Primary alcohol by volume",
+        "infobox_value": "Rum"
+      },
+      {
+        "infobox_key": "Served",
+        "infobox_value": "On the rocks; poured over ice"
+      },
+      {
+        "infobox_key": "Standard garnish",
+        "infobox_value": "Orange slices"
+      },
+      {
+        "infobox_key": "Standard drinkware",
+        "infobox_value": "Highball glass"
+      },
+      {
+        "infobox_key": "Commonly used ingredients",
+        "infobox_value": "4.5cl rum\n13.5 cl Fresh orange juice\n9 cl Fresh ginger ale\n4.5 cl Fresh pineapple juice\n1 cl Grenadine syrup"
+      },
+      {
+        "infobox_key": "Preparation",
+        "infobox_value": "Pour all ingredients into shaker filled with ice. Shake well. Pour into large glass, filled with ice cubes. Garnish with orange slices."
+      }
+    ]
+  },
+  {
+    "name": "El Presidente (cocktail)",
+    "url": "https://en.wikipedia.org/wiki/El_Presidente_(cocktail)",
+    "selection2": [
+      {
+        "infobox_key": "Type",
+        "infobox_value": "Cocktail"
+      },
+      {
+        "infobox_key": "Primary alcohol by volume",
+        "infobox_value": "Rum"
+      },
+      {
+        "infobox_key": "Served",
+        "infobox_value": "Straight up; without ice"
+      },
+      {
+        "infobox_key": "Standard garnish",
+        "infobox_value": "twist of orange peel"
+      },
+      {
+        "infobox_key": "Standard drinkware",
+        "infobox_value": "Cocktail glass"
+      },
+      {
+        "infobox_key": "Commonly used ingredients",
+        "infobox_value": "Two parts rum\nOne part curaçao\nOne part dry vermouth\nDash grenadine"
+      },
+      {
+        "infobox_key": "Preparation",
+        "infobox_value": "Stir well with ice, then strain into glass. Garnish and serve."
+      }
+    ]
+  },
+  {
+    "name": "Hurricane (cocktail)",
+    "url": "https://en.wikipedia.org/wiki/Hurricane_(cocktail)",
+    "selection2": [
+      {
+        "infobox_key": "Type",
+        "infobox_value": "Cocktail"
+      },
+      {
+        "infobox_key": "Primary alcohol by volume",
+        "infobox_value": "Rum"
+      },
+      {
+        "infobox_key": "Served",
+        "infobox_value": "\"On the rocks\"; poured over ice"
+      },
+      {
+        "infobox_key": "Standard drinkware",
+        "infobox_value": "hurricane lamp–shaped glass"
+      },
+      {
+        "infobox_key": "Commonly used ingredients",
+        "infobox_value": "One part dark rum\nOne part white rum\nHalf part over proofed rum\nPassion fruit syrup\nLemon juice"
+      },
+      {
+        "infobox_key": "Preparation",
+        "infobox_value": "Shake ingredients with ice, then pour into the glass and serve over ice."
+      },
+      {
+        "infobox_key": "Notes",
+        "infobox_value": "+"
+      }
+    ]
+  },
+  {
+    "name": "Long Island Iced Tea",
+    "url": "https://en.wikipedia.org/wiki/Long_Island_Iced_Tea",
+    "selection2": [
+      {
+        "infobox_key": "Type",
+        "infobox_value": "Cocktail"
+      },
+      {
+        "infobox_key": "Primary alcohol by volume",
+        "infobox_value": "Gin\nTequila\nVodka\nRum\nTriple sec"
+      },
+      {
+        "infobox_key": "Served",
+        "infobox_value": "On the rocks; poured over ice"
+      },
+      {
+        "infobox_key": "Standard drinkware",
+        "infobox_value": "Highball glass"
+      },
+      {
+        "infobox_key": "IBA specified\ningredients",
+        "infobox_value": "1.5 cl Tequila\n1.5 cl Vodka\n1.5 cl White rum\n1.5 cl Triple sec\n1.5 cl Gin\n2.5 cl Lemon juice\n3.0 cl Gomme Syrup\n1 dash of Cola"
+      },
+      {
+        "infobox_key": "Preparation",
+        "infobox_value": "Add all ingredients into highball glass filled with ice. Stir gently. Garnish with lemon spiral. Serve with straw. [1]"
+      }
+    ]
+  },
+  {
+    "name": "Macuá",
+    "url": "https://en.wikipedia.org/wiki/Macu%C3%A1",
+    "selection2": [
+      {
+        "infobox_key": "Type",
+        "infobox_value": "Cocktail"
+      },
+      {
+        "infobox_key": "Primary alcohol by volume",
+        "infobox_value": "Rum"
+      },
+      {
+        "infobox_key": "Served",
+        "infobox_value": "On the rocks"
+      },
+      {
+        "infobox_key": "Standard garnish",
+        "infobox_value": "lemon slice"
+      },
+      {
+        "infobox_key": "Standard drinkware",
+        "infobox_value": "Highball glass"
+      },
+      {
+        "infobox_key": "Commonly used ingredients",
+        "infobox_value": "2 parts white rum (preferably Flor de Caña)\n2 parts guava juice\n1 part lemon juice\nsugar to taste"
+      },
+      {
+        "infobox_key": "Preparation",
+        "infobox_value": "Blend the ingredients with 1 cup of ice and serve well chilled. Garnish with an orange slice"
+      }
+    ]
+  },
+  {
+    "name": "Mai Tai",
+    "url": "https://en.wikipedia.org/wiki/Mai_Tai",
+    "selection2": [
+      {
+        "infobox_key": "Type",
+        "infobox_value": "Cocktail"
+      },
+      {
+        "infobox_key": "Primary alcohol by volume",
+        "infobox_value": "Rum"
+      },
+      {
+        "infobox_key": "Served",
+        "infobox_value": "On the rocks; poured over ice"
+      },
+      {
+        "infobox_key": "Standard garnish",
+        "infobox_value": "pineapple spear, mint leaves and lime shell"
+      },
+      {
+        "infobox_key": "Standard drinkware",
+        "infobox_value": "Old Fashioned glass"
+      },
+      {
+        "infobox_key": "IBA specified\ningredients",
+        "infobox_value": "4 cl white rum\n2 cl dark rum\n1.5 cl orange curaçao\n1.5 cl orgeat syrup\n1 cl fresh lime juice"
+      },
+      {
+        "infobox_key": "Preparation",
+        "infobox_value": "Shake all ingredients with ice. Strain into glass. Garnish and serve with straw."
+      }
+    ]
+  },
+  {
+    "name": "Mary Pickford (cocktail)",
+    "url": "https://en.wikipedia.org/wiki/Mary_Pickford_(cocktail)",
+    "selection2": [
+      {
+        "infobox_key": "Type",
+        "infobox_value": "Cocktail"
+      },
+      {
+        "infobox_key": "Primary alcohol by volume",
+        "infobox_value": "Rum"
+      },
+      {
+        "infobox_key": "Served",
+        "infobox_value": "Straight up; without ice"
+      },
+      {
+        "infobox_key": "Standard drinkware",
+        "infobox_value": "Cocktail glass"
+      },
+      {
+        "infobox_key": "IBA specified\ningredients",
+        "infobox_value": "6 cl white rum\n6 cl fresh pineapple juice\n1 cl Grenadine\n1 cl Maraschino"
+      },
+      {
+        "infobox_key": "Preparation",
+        "infobox_value": "Shake and strain into a chilled large cocktail glass"
+      },
+      {
+        "infobox_key": "Timing",
+        "infobox_value": "All Day"
+      }
+    ]
+  },
+  {
+    "name": "Mojito",
+    "url": "https://en.wikipedia.org/wiki/Mojito",
+    "selection2": [
+      {
+        "infobox_key": "Type",
+        "infobox_value": "Cocktail"
+      },
+      {
+        "infobox_key": "Primary alcohol by volume",
+        "infobox_value": "Rum"
+      },
+      {
+        "infobox_key": "Served",
+        "infobox_value": "On the rocks; poured over ice"
+      },
+      {
+        "infobox_key": "Standard garnish",
+        "infobox_value": "sprig of mint (Yerba buena in the original recipe), lemon slice"
+      },
+      {
+        "infobox_key": "Standard drinkware",
+        "infobox_value": "Collins glass"
+      },
+      {
+        "infobox_key": "IBA specified\ningredients",
+        "infobox_value": "4 cl white rum\n3 cl fresh lime juice\n6 sprigs of mint\n2 teaspoons sugar (or 2 cl of sugar syrup)\nsoda water"
+      },
+      {
+        "infobox_key": "Preparation",
+        "infobox_value": "Muddle mint leaves with sugar and lime juice. Add a splash of soda water and fill the glass with cracked ice. Pour the rum and top with soda water. Garnish with sprig of mint leaves and lemon slice. Serve with straw."
+      }
+    ]
+  },
+  {
+    "name": "Orange Whip",
+    "url": "https://en.wikipedia.org/wiki/Orange_Whip",
+    "selection2": [
+      {
+        "infobox_key": "Type",
+        "infobox_value": "Cocktail"
+      },
+      {
+        "infobox_key": "Primary alcohol by volume",
+        "infobox_value": "Vodka\nRum"
+      },
+      {
+        "infobox_key": "Served",
+        "infobox_value": "blended (no ice)\nthen on the rocks"
+      },
+      {
+        "infobox_key": "Standard garnish",
+        "infobox_value": "None"
+      },
+      {
+        "infobox_key": "Standard drinkware",
+        "infobox_value": "Collins glass"
+      },
+      {
+        "infobox_key": "Commonly used ingredients",
+        "infobox_value": "4oz (four parts) orange juice\n1oz (one part) rum\n1oz (one part) vodka\n2oz (two parts) cream"
+      },
+      {
+        "infobox_key": "Preparation",
+        "infobox_value": "Blend briefly with hand blender. Pour ingredients over ice and stir."
+      }
+    ]
+  },
+  {
+    "name": "Painkiller (cocktail)",
+    "url": "https://en.wikipedia.org/wiki/Painkiller_(cocktail)",
+    "selection2": [
+      {
+        "infobox_key": "Type",
+        "infobox_value": "Cocktail"
+      },
+      {
+        "infobox_key": "Primary alcohol by volume",
+        "infobox_value": "Rum"
+      },
+      {
+        "infobox_key": "Served",
+        "infobox_value": "on the rocks"
+      },
+      {
+        "infobox_key": "Standard garnish",
+        "infobox_value": "Nutmeg"
+      },
+      {
+        "infobox_key": "Commonly used ingredients",
+        "infobox_value": "1-4 part(s) Pusser's Rum\n4 parts pineapple juice\n1 part cream of coconut\n1 part orange juice\nSprinkle with nutmeg"
+      },
+      {
+        "infobox_key": "Preparation",
+        "infobox_value": "Shake and garnish."
+      }
+    ]
+  },
+  {
+    "name": "Planter's Punch",
+    "url": "https://en.wikipedia.org/wiki/Planter%27s_Punch",
+    "selection2": [
+      {
+        "infobox_key": "Type",
+        "infobox_value": "Mixed drink"
+      },
+      {
+        "infobox_key": "Primary alcohol by volume",
+        "infobox_value": "Rum"
+      },
+      {
+        "infobox_key": "Served",
+        "infobox_value": "On the rocks; poured over ice"
+      },
+      {
+        "infobox_key": "Standard garnish",
+        "infobox_value": "Cherry and pineapple slice"
+      },
+      {
+        "infobox_key": "Standard drinkware",
+        "infobox_value": "Highball glass"
+      },
+      {
+        "infobox_key": "IBA specified\ningredients",
+        "infobox_value": "4.5cl Dark rum\n3.5 cl fresh orange juice\n3.5 cl fresh pineapple juice\n2 cl fresh lemon juice\n1 cl Grenadine syrup\n1 cl sugar syrup\n3 or 4 dashes Angostura bitters"
+      },
+      {
+        "infobox_key": "Preparation",
+        "infobox_value": "Pour all ingredients, except the bitters, into shaker filled with ice. Shake well. Pour into large glass, filled with ice. Add Angostura bitters, \"on top\". Garnish with cocktail cherry and pineapple."
+      }
+    ]
+  },
+  {
+    "name": "Rum and Coke",
+    "url": "https://en.wikipedia.org/wiki/Rum_and_Coke",
+    "selection2": [
+      {
+        "infobox_key": "Type",
+        "infobox_value": "Cocktail"
+      },
+      {
+        "infobox_key": "Primary alcohol by volume",
+        "infobox_value": "Rum"
+      },
+      {
+        "infobox_key": "Served",
+        "infobox_value": "On the rocks; poured over ice"
+      },
+      {
+        "infobox_key": "Standard garnish",
+        "infobox_value": "Lime wedge"
+      },
+      {
+        "infobox_key": "Standard drinkware",
+        "infobox_value": "Collins glass"
+      },
+      {
+        "infobox_key": "IBA specified\ningredients",
+        "infobox_value": "12 cl Cola\n5 cl Light rum\n1 cl Fresh lime juice"
+      },
+      {
+        "infobox_key": "Preparation",
+        "infobox_value": "Build all ingredients in a Collins glass filled with ice. Garnish with lime wedge."
+      }
+    ]
+  },
+  {
+    "name": "Rum Swizzle",
+    "url": "https://en.wikipedia.org/wiki/Rum_Swizzle",
+    "selection2": [
+      {
+        "infobox_key": "Type",
+        "infobox_value": "Cocktail"
+      },
+      {
+        "infobox_key": "Served",
+        "infobox_value": "On the rocks; poured over ice"
+      },
+      {
+        "infobox_key": "Standard drinkware",
+        "infobox_value": "Cocktail Glass"
+      },
+      {
+        "infobox_key": "Commonly used ingredients",
+        "infobox_value": "4oz. black rum\n4oz. gold rum\nJuice of 2 lemons\n5oz. pineapple juice\n5oz orange juice\n2oz. Bermuda falernum\n6 dashes Angostura Bitters"
+      },
+      {
+        "infobox_key": "Preparation",
+        "infobox_value": "Mix in pitcher with crushed ice, shake vigorously until a frothing head appears. Strain into cocktail glasses. Garnish with a slice of orange and a cherry. Serves 6."
+      }
+    ]
+  },
+  {
+    "name": "Yellow Bird (cocktail)",
+    "url": "https://en.wikipedia.org/wiki/Yellow_Bird_(cocktail)",
+    "selection2": [
+      {
+        "infobox_key": "Type",
+        "infobox_value": "Cocktail"
+      },
+      {
+        "infobox_key": "Primary alcohol by volume",
+        "infobox_value": "Rum"
+      },
+      {
+        "infobox_key": "Served",
+        "infobox_value": "Straight up; without ice"
+      },
+      {
+        "infobox_key": "Standard drinkware",
+        "infobox_value": "Cocktail glass"
+      },
+      {
+        "infobox_key": "IBA specified\ningredients",
+        "infobox_value": "3 cl White Rum\n1.5 cl Galliano\n1.5 cl Triple sec\n1.5 cl Lime juice"
+      },
+      {
+        "infobox_key": "Preparation",
+        "infobox_value": "Shake and strain into a chilled cocktail glass"
+      },
+      {
+        "infobox_key": "Timing",
+        "infobox_value": "All Day"
+      }
+    ]
+  },
+  {
+    "name": "Zazarac",
+    "url": "https://en.wikipedia.org/wiki/Zazarac",
+    "selection2": [
+      {
+        "infobox_key": "Type",
+        "infobox_value": "Cocktail"
+      },
+      {
+        "infobox_key": "Served",
+        "infobox_value": "Straight up; without ice"
+      },
+      {
+        "infobox_key": "Standard garnish",
+        "infobox_value": "lemon peel"
+      },
+      {
+        "infobox_key": "Standard drinkware",
+        "infobox_value": "Old Fashioned glass"
+      },
+      {
+        "infobox_key": "Commonly used ingredients",
+        "infobox_value": "1/6 rum\n1/6 anisette\n1/6 gomme syrup\n1/3 rye whiskey\n1 dash angostura bitters\n1 dash orange bitters\n3 dashes absinthe"
+      },
+      {
+        "infobox_key": "Preparation",
+        "infobox_value": "Pour all ingredients into a cocktail shaker with ice and shake well. Strain into cocktail glass.[1]"
+      }
+    ]
+  },
+  {
+    "name": "Zombie (cocktail)",
+    "url": "https://en.wikipedia.org/wiki/Zombie_(cocktail)",
+    "selection2": [
+      {
+        "infobox_key": "Type",
+        "infobox_value": "Mixed drink"
+      },
+      {
+        "infobox_key": "Primary alcohol by volume",
+        "infobox_value": "Rum"
+      },
+      {
+        "infobox_key": "Served",
+        "infobox_value": "On the rocks; poured over ice"
+      },
+      {
+        "infobox_key": "Standard garnish",
+        "infobox_value": "mint sprig"
+      },
+      {
+        "infobox_key": "Standard drinkware",
+        "infobox_value": "Tiki Mug\n1 1/2 oz Puerto Rican golden rum\n1 1/2 oz Jamaican rum\n1 oz demerara 151 rum\n1/2 oz Donn's Mix (2:1 mix of grapefruit juice & cinnamon syrup)\n1/2 oz Velvet Falernum\n3/4 oz lime juice\n1/4 oz grenadine\n2 dashes absinthe\n1 dash angostura bitters"
+      },
+      {
+        "infobox_key": "Preparation",
+        "infobox_value": "Mix ingredients in a shaker with ice. Pour into tiki mug filled with crushed ice."
+      },
+      {
+        "infobox_key": "Notes",
+        "infobox_value": "Because of the high proof rum, this cocktail could be lit if desired."
+      }
+    ]
+  }
+]

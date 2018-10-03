@@ -1,0 +1,13 @@
+[Unit]
+Description=Mixorama
+After=hciuart.service
+
+[Service]
+Type=simple
+WorkingDirectory=/home/pi/mix-o-rama
+ExecStart=/home/pi/mix-o-rama/.venv/bin/python mixorama/main.py run
+Environment="USER=pi" "PYTHONPATH=/home/pi/kivy"
+
+[Install]
+WantedBy=multi-user.target
+

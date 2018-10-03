@@ -13,7 +13,6 @@ bartender:
     port: /dev/serial0 # RPi pins 14,15
     baudrate: 115200
     timeout: 3000
-    mock: True
   compressor: 11 # 23
 
 bar:

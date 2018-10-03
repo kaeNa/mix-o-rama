@@ -49,10 +49,23 @@ menu:
     Tonic: 140
   Margarita:
     Tequila: 35
-    Countreau: 20
-    LimeJuice: 15
+    Cointreau: 20
+    #LimeJuice: 15
   CubaLibre:
     meta:
       image: 'docs/cuba-libre-2v.jpg'
     Rum: 50
     Cola: 120
+
+  Tequila, 50:
+    Tequila: 50
+  Gin, 50:
+    Gin: 50
+  Rum, 50:
+    Rum: 50
+  Tonic, 30:
+    Tonic: 30
+  Cola, 100:
+    Cola: 100
+  Cointreau, 30:
+    Cointreau: 30

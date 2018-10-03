@@ -34,6 +34,10 @@ sys.stderr = sys_stderr
 logging.root = logging_root
 logging.getLogger('kivy').setLevel = kivy_logger_setlevel
 
+# Left-hand grid size constants
+MENU_ROWS = 8
+MENU_COLS = 3
+
 
 def is_gui_available():
     try:
@@ -120,10 +124,7 @@ class MainWidget(BoxLayout):
 
     def build_cocktail_buttons(self, menu):
         for key, recipe in menu.items():
-            horiz_size = 1 / 3  # arrange in 3 columns
-            vert_size = horiz_size / len(menu)  # percent of parent
-
-            b = Button(text=recipe.name, size_hint=(horiz_size, vert_size),
+            b = Button(text=recipe.name, size_hint=(1 / MENU_COLS, 1 / MENU_ROWS),
                        on_press=lambda *args, r=recipe: self.stage_recipe(r))
 
             self.menu_buttons.add_widget(b)

@@ -7,7 +7,7 @@ import statistics
 
 from serial import Serial
 
-from mixorama.util import make_timeout, BoolStabilizer
+from mixorama.util import make_timeout
 
 logger = logging.getLogger(__name__)
 
@@ -81,9 +81,10 @@ def reject_outliers(data, stdev_multiplier=2):
 class Scales:
     tare = 0
 
-    def __init__(self, port, calibrated_1g=-2000.0, **kwargs):
+    def __init__(self, port, calibrated_1g=-2000.0, measurements=1, **kwargs):
         self._abort_event = Event()
         self.calibrated_1g = calibrated_1g
+        self.measurements = measurements
 
         if 'MOCK_SCALES' in os.environ:
             logger.warning('Using mocked scales!')
@@ -97,36 +98,36 @@ class Scales:
         logger.info('set tare to %f', self.tare)
 
     def _raw_measure(self):
-        measures = self.scales.get_raw_data(6)
+        measures = self.scales.get_raw_data(self.measurements)
         logger.debug('received measures at: %s', measures)
 
         mean = statistics.mean(measures)
-        logger.debug('mean measurements: %f', mean)
+        #logger.debug('mean measurements: %f', mean)
         return mean
 
     def measure(self):
         try:
             no_tare = self._raw_measure() - self.tare
-            logger.debug('no_tare: %f', no_tare)
+            #logger.debug('no_tare: %f', no_tare)
 
             weight_in_gr = no_tare / self.calibrated_1g
-            logger.debug('weight_in_gr: %f', weight_in_gr)
+            #logger.debug('weight_in_gr: %f', weight_in_gr)
 
             return weight_in_gr
 
         except TimeoutError as e:
             raise ScalesTimeoutException from e
 
-    def wait_for_weight(self, target, timeout=20000, stable_timeout=300, on_progress=lambda d, s: None):
+    def wait_for_weight(self, target, timeout=20000, on_progress=lambda d, s: None):
         self._abort_event.clear()
         result_queue = Queue()
 
         def poller():
-            is_stable = BoolStabilizer(stable_timeout)
+            logger.debug('started scales poller')
             time_is_out = make_timeout(timeout)
 
             v = self.measure()
-            while not is_stable(v > target if target > 0 else v < target):
+            while not v > target if target > 0 else v < target:
                 if self._abort_event.is_set():
                     return result_queue.put(WaitingForWeightAbortedException())
 

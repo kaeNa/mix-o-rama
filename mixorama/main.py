@@ -103,4 +103,15 @@ def test(ctx: click.Context):
         sleep(.3)
 
 
+@cli.command('scales')
+@click.pass_context
+def test(ctx: click.Context):
+    ctx = ctx.obj
+    ''':type: Context'''
+
+    port = ctx.bartender.scales.scales.port
+    while True:
+        print(port.readline())
+
+
 __name__ == '__main__' and cli()

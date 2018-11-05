@@ -47,16 +47,17 @@ def create_bar(shelf, config):
 
 def create_menu(bar, config: Dict[str, Dict[str, int]]):
     recipes = {}
+    available_components = dict([(c.name, c) for c in bar.keys()])
     for recipe_name, sequence in config.items():
         meta = sequence.pop('meta') if 'meta' in sequence else {}
 
         try:
             component_sequence = []
             for component_name, volume in sequence.items():
-                if component_name not in bar:
+                if component_name not in available_components:
                     raise ComponentNotAvailable(component_name)
 
-                component_sequence.append((bar[component_name], volume))
+                component_sequence.append((available_components[component_name], volume))
 
             recipes[recipe_name] = Recipe(recipe_name, component_sequence, **meta)
         except ComponentNotAvailable as e:

@@ -40,7 +40,7 @@ def cli(ctx: click.Context, conf: str) -> None:
     shelf = create_shelf(cfg.get('shelf'))
     bar = create_bar(shelf, cfg.get('bar'))
     bartender = create_bartender(bar, cfg.get('bartender'))
-    menu = create_menu(shelf, cfg.get('menu'))
+    menu = create_menu(bar, cfg.get('menu'))
 
     ctx.obj = Context(cfg, shelf, bar, bartender, menu)
 

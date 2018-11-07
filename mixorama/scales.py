@@ -9,10 +9,16 @@ from serial import Serial
 
 from mixorama.util import make_timeout
 
+SCALES_RESET_TIMEOUT = 5000
+
 logger = logging.getLogger(__name__)
 
 
-class ScalesTimeoutException(Exception):
+class ScalesException(Exception):
+    pass
+
+
+class ScalesTimeoutException(ScalesException):
     pass
 
 
@@ -25,30 +31,42 @@ class ScalesImpl:
         self.port = Serial(**kwargs)
 
     def reset(self):
-        logger.debug('resetting scales')
+        logger.debug('scales reset()')
+
         if not self.port.is_open:
             self.port.open()
             logger.debug('port open')
 
-        self.port.write('c1'.encode('ascii'))
-        with self.port as p:
-            line = 'readline()'
-            while 'complete' not in line:
-                logger.debug('serial scales: %s', line)
-                line = p.readline().decode('ascii')
+        self.port.flushInput()
+        logger.debug('reset() complete')
 
     def get_raw_data(self, n):
         data = []
         if not self.port.is_open:
             self.port.open()
+            logger.debug('port open')
 
-        with self.port as p:
-            for _ in range(n):
-                l = p.readline().decode('ascii')
-                if l.startswith('#'):
+        timeout = make_timeout(self.port.timeout * 1000)
+        while len(data) < n:
+            if timeout():
+                raise ScalesTimeoutException('could not get raw data')
+
+            raw_data = self.port.readline()
+            logger.debug('get_data_raw() rcv: %s', raw_data)
+
+            try:
+                raw_line = raw_data.decode('ascii')
+                if raw_line.startswith('#'):
                     continue
-                data.append(float(l))
+
+                data.append(float(raw_line))
+            except ValueError:
+                logger.exception('could not parse received data')
         return data
+
+    def stop(self):
+        logger.debug('port closed')
+        self.port.close()
 
 
 class MockScalesImpl:
@@ -69,6 +87,9 @@ class MockScalesImpl:
 
         self.counter = window[-1]
         return window
+
+    def stop(self):
+        pass
 
 
 def reject_outliers(data, stdev_multiplier=2):
@@ -94,13 +115,12 @@ class Scales:
 
     def reset(self, tare=None):
         self.scales.reset()
+        self._raw_measure(6)  # skipping some data to stabilize
         self.tare = tare or self._raw_measure()
         logger.info('set tare to %f', self.tare)
 
-    def _raw_measure(self):
-        measures = self.scales.get_raw_data(self.measurements)
-        logger.debug('received measures at: %s', measures)
-
+    def _raw_measure(self, measurements=None):
+        measures = self.scales.get_raw_data(measurements or self.measurements)
         mean = statistics.mean(measures)
         #logger.debug('mean measurements: %f', mean)
         return mean
@@ -125,26 +145,30 @@ class Scales:
         def poller():
             logger.debug('started scales poller')
             time_is_out = make_timeout(timeout)
-
-            v = self.measure()
-            while not v > target if target > 0 else v < target:
-                if self._abort_event.is_set():
-                    return result_queue.put(WaitingForWeightAbortedException())
-
-                if time_is_out():
-                    return result_queue.put(ScalesTimeoutException(v))
-
+            try:
                 v = self.measure()
-                logger.info('got measurement: %f', v)
-                on_progress(min(v, target), target)
+                while not (v > target if target > 0 else v < target):
+                    if self._abort_event.is_set():
+                        return result_queue.put(WaitingForWeightAbortedException())
 
-            result_queue.put(v)
+                    if time_is_out():
+                        return result_queue.put(ScalesTimeoutException(v))
+
+                    v = self.measure()
+                    logger.info('got measurement: %f', v)
+                    on_progress(min(v, target), target)
+
+                result_queue.put(v)
+            except Exception as e:
+                result_queue.put(e)
+                raise
 
         Thread(target=poller, daemon=True).start()
 
         logger.info('waiting for a target weight of %f', target)
         result = result_queue.get(block=True)
 
+        self.scales.stop()
         if isinstance(result, Exception):
             raise result
 

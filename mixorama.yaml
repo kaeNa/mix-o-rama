@@ -1,3 +1,22 @@
+bar:
+  Malibu rum: 0  # 27 (valve1)
+  Midori melon liqueur: 5  # 29 (valve2)
+  Pineapple juice: 6  # 31 (valve3)
+  Cranberry juice: 13  # 35 (valve4)
+  Gin: 19  # 33 (valve5)
+  Tonic water: 26  # 37 (valve6)
+
+bartender:
+  scales:
+    #port: /dev/ttyACM0 # USB CDC Serial for debugging on PC
+    port: /dev/serial0 # RPi pins 14,15
+    baudrate: 9600
+    timeout: 2
+    write_timeout: 2
+    inter_byte_timeout: 2
+  compressor: 11 # 23
+
+
 logging:
   level: INFO
 
@@ -6,26 +25,6 @@ kivy: # https://kivy.org/doc/stable/api-kivy.config.html#module-kivy.config
     #mouse: mouse
     mtdev_%(name)s: probesysfs,provider=mtdev
     #hid_%(name)s: probesysfs,provider=hidinput
-
-bartender:
-  scales:
-    #port: /dev/ttyACM0 # USB CDC Serial for debugging on PC
-    port: /dev/serial0 # RPi pins 14,15
-    baudrate: 115200
-    timeout: 3000
-  compressor: 11 # 23
-
-bar:
-  Tequila: 0  # 27
-  Gin: 5  # 29
-  Rum: 13  # 31
-  Tonic: 6  # 33
-  Cola: 19  # 35
-  Cointreau: 26  # 37
-
-#buttons:
-#  12: abort  # 32
-#  23: GinTonic  # 16
 
 shelf:
   Tequila:

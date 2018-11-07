@@ -4,11 +4,11 @@ from typing import List, Dict, Tuple
 import logging
 from mixorama.io import Valve
 from mixorama.recipes import Component
-from mixorama.scales import Scales, ScalesTimeoutException, WaitingForWeightAbortedException
+from mixorama.scales import Scales, ScalesTimeoutException, WaitingForWeightAbortedException, ScalesException
 from mixorama.statemachine import sm_transition, StateMachineCallbacks
 
 GLASS_WEIGHT = 150  # grams
-USER_TAKE_GLASS_TIMEOUT = 60  # sec
+USER_TAKE_GLASS_TIMEOUT = 10000  # msec
 MEASURING_INERTIA = 10  # grams, that the scales don't see when the valve closes
 
 logger = logging.getLogger(__name__)
@@ -53,8 +53,8 @@ class Bartender(StateMachineCallbacks):
     def _pour(self, recipe, component, volume):
         try:
             self.scales.reset()
-        except ScalesTimeoutException:
-            logger.info('Error resetting scales')
+        except ScalesException:
+            logger.exception('Error resetting scales')
             raise
 
         self.compressor.open()
@@ -110,9 +110,9 @@ class Bartender(StateMachineCallbacks):
 
     def _wait_for_glass_lift(self):
         logger.info('waiting for the user to retrieve the glass')
-        self.scales.reset()
         try:
-            self.scales.wait_for_weight(GLASS_WEIGHT * -1, USER_TAKE_GLASS_TIMEOUT * 1000)
+            self.scales.reset()
+            self.scales.wait_for_weight(GLASS_WEIGHT * -1, USER_TAKE_GLASS_TIMEOUT)
             logger.info('weight lifted')
             return True
         except ScalesTimeoutException as e:

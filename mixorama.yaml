@@ -29,42 +29,162 @@ kivy: # https://kivy.org/doc/stable/api-kivy.config.html#module-kivy.config
 shelf:
   Tequila:
     strength: 40
-    density: 0.9
   Gin:
     strength: 40
-    density: 0.9
   Rum:
     strength: 40
-    density: 0.9
+  Vodka:
+    strength: 40
   Cointreau:
     strength: 35
-    density: 1.2
+  Malibu rum:
+    strength: 21
+  Midori melon liqueur:
+    strength: 17
+  Chambord raspberry liqueur:
+    strength: 16.5
 
 menu:
-  GinTonic:
+  Tequila shot:
+    Tequila: 30
+
+  Vodka shot:
+    Vodka: 30
+
+  Alien secretion:
+    Midori melon liqueur: 40
+    Malibu rum: 40
+    Pineapple juice: 40
+    meta:
+      description: melon & coconut liqueurs + pineapple juice
+
+  'Alien secretion #2':
+    Midori melon liqueur: 10
+    Malibu rum: 10
+    Pineapple juice: 10
+    Vodka: 10
+    meta:
+      description: a stronger alien secretion in a shot.
+
+  CubaLibre:
+    Rum: 50
+    Cola: 120
+    meta:
+      description: add a slice of lemon
+
+  Doh:
+    Vodka: 60
+    Malibu rum: 30
+    Pineapple juice: 60
+    meta:
+      description: vodka, coconut rum + pineapple juice
+
+  Doh light:
+    Vodka: 60
+    Malibu rum: 30
+    Pineapple juice: 90
+    meta:
+      description: same as Doh, but more pineapple juice
+
+  Fig:
+    Malibu rum: 45
+    Pineapple juice: 30
+    Cranberry juice: 30
+    meta:
+      description: coconut rum + pineapple cranberry juice
+
+  Fong juice:
+    Malibu rum: 40
+    Pineapple juice: 80
+    meta:
+      description: coconut rum & pineapple juice
+
+  Gin & Tonic:
+    Gin: 40
+    Tonic water: 80
     meta:
       image: 'docs/GS-Martini-SN_Snapseed.jpg'
-    Gin: 70
-    Tonic: 140
+      description: Add a lime wedge. Sugar syrup to taste
+
+  Jamaican Screw:
+    Malibu rum: 60
+    Orange juice: 60
+    meta:
+      description: malibu & orange juice
+
+  June bug:
+    Midori melon liqueur: 30
+    Malibu rum: 30
+    Pineapple juice: 30
+    meta:
+      description: melon, coconut and pineapple
+
+  M.V.P.:
+    Vodka: 40
+    Midori melon liqueur: 20
+    Malibu rum: 20
+    Pineapple juice: 60
+    meta:
+      description: a much stronger June Bug
+
   Margarita:
     Tequila: 35
     Cointreau: 20
     #LimeJuice: 15
-  CubaLibre:
     meta:
-      image: 'docs/cuba-libre-2v.jpg'
-    Rum: 50
-    Cola: 120
+      description: Add 15 ml. of lime juice.
 
-  Tequila, 50:
-    Tequila: 50
-  Gin, 50:
-    Gin: 50
-  Rum, 50:
-    Rum: 50
-  Tonic, 30:
-    Tonic: 30
-  Cola, 100:
-    Cola: 100
-  Cointreau, 30:
-    Cointreau: 30
+  'Martian Martini':
+    Midori melon liqueur: 30
+    Gin: 60
+    meta:
+      description: melon liqueur and gin
+
+  'Malibu Bay Breeze':
+    Malibu rum: 45
+    Cranberry juice: 60
+    Pineapple juice: 60
+    meta:
+      description: coconut rum + cranberry & pineapple
+
+  Malibu Screw:
+    Malibu rum: 30
+    Vodka: 30
+    Orange juice: 90
+    meta:
+      description: a screwdriver + coconut rum
+
+  Melonball (Spanish style):
+    Midori melon liqueur: 20
+    Malibu rum: 20
+    Pineapple juice: 20
+    Orange juice: 60
+    meta:
+      description: melon & coconut liqueurs + pineapple & orange juices
+
+  Navel Caribbean Love:
+    Malibu rum: 45
+    Orange juice: 75
+    meta:
+      description: coconut rum & orange juice
+
+  'Nelson special':
+    Gin: 45
+    Cranberry juice: 40
+    Tonic water: 50
+    meta:
+      description: gin & tonic + Cranberry juice
+
+
+  'Skinny Dipper':
+    Midori melon liqueur: 40
+    Cranberry juice: 120
+    meta:
+      description: melon liqueur & cranberry juice
+
+
+  'The Wedge':
+    Malibu rum: 47
+    Cranberry juice: 93
+    meta:
+      description: coconut rum & cranberry juice

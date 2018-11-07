@@ -50,6 +50,7 @@ def create_menu(bar, config: Dict[str, Dict[str, int]]):
     available_components = dict([(c.name, c) for c in bar.keys()])
     for recipe_name, sequence in config.items():
         meta = sequence.pop('meta') if 'meta' in sequence else {}
+        meta['name'] = meta.get('name', recipe_name)
 
         try:
             component_sequence = []
@@ -59,7 +60,7 @@ def create_menu(bar, config: Dict[str, Dict[str, int]]):
 
                 component_sequence.append((available_components[component_name], volume))
 
-            recipes[recipe_name] = Recipe(recipe_name, component_sequence, **meta)
+            recipes[recipe_name] = Recipe(sequence=component_sequence, **meta)
         except ComponentNotAvailable as e:
             logger.warning('Cannot add {} to the menu, as it is not in the bar'.format(e.args[0]))
 

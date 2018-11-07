@@ -102,16 +102,46 @@ def test(ctx: click.Context):
         valve.close()
         sleep(.3)
 
+    ctx.bartender.compressor.close()
 
-@cli.command('scales')
+
+@cli.command(name='whatswhat')
 @click.pass_context
-def test(ctx: click.Context):
+def whatswhat(ctx: click.Context):
     ctx = ctx.obj
     ''':type: Context'''
 
-    port = ctx.bartender.scales.scales.port
+    print('!! Make sure the air is disconnected from bottles !!')
+    if not input('Press Y to start').upper().startswith('Y'):
+        return
+
+    valves = sorted(ctx.bar.items(), key=lambda i: i[1].channel)
+    try:
+        while True:
+            for component, valve in valves:
+                print("Testing %s on pin %d" % (component.name, valve.channel))
+                input("Press any key to start")
+                valve.open()
+                ctx.bartender.compressor.open()
+                input("Press any key to stop")
+                ctx.bartender.compressor.close()
+                sleep(.5)
+                valve.close()
+    except KeyboardInterrupt:
+        pass
+
+
+@cli.command('scales')
+@click.pass_context
+def scales(ctx: click.Context):
+    ctx = ctx.obj
+    ''':type: Context'''
+
+    impl = ctx.bartender.scales.scales
+
+    impl.reset()
     while True:
-        print(port.readline())
+        print(impl.get_raw_data(1))
 
 
 __name__ == '__main__' and cli()

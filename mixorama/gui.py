@@ -35,7 +35,7 @@ logging.root = logging_root
 logging.getLogger('kivy').setLevel = kivy_logger_setlevel
 
 # Left-hand grid size constants
-MENU_ROWS = 8
+MENU_ROWS = 6
 MENU_COLS = 3
 
 
@@ -124,18 +124,37 @@ class MainWidget(BoxLayout):
 
     def build_cocktail_buttons(self, menu):
         for key, recipe in menu.items():
-            b = Button(text=recipe.name, size_hint=(1 / MENU_COLS, 1 / MENU_ROWS),
-                       on_press=lambda *args, r=recipe: self.stage_recipe(r))
+            b = Button(text=recipe.name,
+                       size_hint=(1 / MENU_COLS, 1 / MENU_ROWS),
+                       halign='center',
+                       on_press=lambda *a, r=recipe: self.stage_recipe(r))
+
+            # set text width to 85% of the button width
+            b.bind(width=lambda bt, w: setattr(bt, 'text_size', (w*.85, None)))
 
             self.menu_buttons.add_widget(b)
 
     def stage_recipe(self, recipe: Recipe):
         self.staged_recipe = recipe
-        self.info_ul.text = 'Volume: {} ml'.format(recipe.volume())
-        self.info_bl.text = 'Strength: {:.2f}%, ABV'.format(recipe.strength())
+        self.set_cocktail_info(recipe)
+        self.set_description_text(recipe.description)
 
         if recipe.image:
             self.image.source = recipe.image
+        else:
+            self.image.source = "mixorama/gui/logo.png"
+
+    def set_cocktail_info(self, recipe: Recipe):
+        self.info_ul.text = "Volume: {} ml\nStrength: {:.1f}%".format(
+            recipe.volume(), recipe.strength())
+        # self.info_ul.text = 'Volume: {} ml'.format(recipe.volume())
+        # self.info_bl.text = 'Strength: {:.1f}%'.format(recipe.strength())
+
+    def set_description_text(self, text):
+        self.info_ur.text = text or ''
+
+    def set_status_text(self, text):
+        self.info_bl.text = text or ''
 
     def reset_progress(self, total=0, step=0):
         self.total_progress.value = total
@@ -155,28 +174,31 @@ class MainWidget(BoxLayout):
                     self.bartender.serve()
                 except CocktailAbortedException:
                     self.bartender.discard()
+                except Exception:
+                    logger.exception('unhandled exception on_make_btn_press()-> maker()')
 
             Thread(daemon=True, target=maker).start()
 
     def on_idle(self):
         self.make_btn.disabled = False
         self.abort_btn.disabled = True
-        self.info_br.text = 'Ready to make drinks!'
+        self.set_status_text('Ready!')
         self.reset_progress()
 
     def on_making(self):
         self.make_btn.disabled = True
         self.abort_btn.disabled = False
-        self.info_br.text = 'Making your drink ...'
-        self.step_progress.value = 0
+        self.set_status_text('Making the drink..')
+        self.reset_progress()
 
     def on_ready(self):
-        self.info_br.text = 'Take your drink'
+        self.reset_progress(100, 100)
+        self.set_status_text('Take the glass')
 
     def on_abort(self):
-        self.info_br.text = 'Cocktail aborted. Please dump the glass contents'
+        self.set_status_text("Cocktail aborted\nTake the glass")
 
     def on_pouring_progress(self, recipe, component, done, volume):
-        recipe_progress = [c[0] for c in recipe].index(component) + 1 / len(recipe)
+        recipe_progress = [c[0] for c in recipe].index(component) / len(recipe)
         self.total_progress.value = recipe_progress * 100
         self.step_progress.value = done / volume * 100

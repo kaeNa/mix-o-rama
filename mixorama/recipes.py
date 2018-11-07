@@ -21,6 +21,8 @@ class Recipe:
     ''':type: List[Tuple[Component, int]]'''
     image = None
     ''':type: str'''
+    description = None
+    ''':type: str'''
 
     def __init__(self, name=None, sequence=None, **meta):
         self.sequence = sequence or []

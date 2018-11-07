@@ -52,19 +52,21 @@
           size_hint: 0.4, 1
           halign: 'left'
           #text: 'Volume: 230Ml'
-        AlignLabel:
-          id: info_ur
-          size_hint: 0.6, 1
-          halign: 'right'
-          #text: 'Add: Angostura bitter, 2 dash'
-        AlignLabel:
-          id: info_bl
-          size_hint: 0.4, 1
-          halign: 'left'
           #text: 'Strength: 13 %, ABV'
         AlignLabel:
+          id: info_ur
+          size_hint: 0.6, 2
+          halign: 'right'
+          #text: 'Add: Angostura bitter, 2 dash'
+
+        AlignLabel:
+          id: info_bl
+          size_hint: 0.5, 1
+          halign: 'left'
+
+        AlignLabel:
           id: info_br
-          size_hint: 0.6, 1
+          size_hint: 0.5, 0 # this is hidden as UR takes double height
           halign: 'right'
           #text: 'Garnish: lime wedge'
 

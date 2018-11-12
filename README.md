@@ -3,7 +3,7 @@ Mix-o-Rama
  
 A cocktail bartender robot project.
 
-[![Mix-o-Rama User Experience video](https://i.vimeocdn.com/video/737658893.jpg)](https://vimeo.com/299511946 "Mix-o-Rama User Experience video - Click to Watch!") 
+[![Mix-o-Rama User Experience video](https://i.imgur.com/qEHpnSF.png)](https://vimeo.com/299511946 "Mix-o-Rama User Experience video - Click to Watch!") 
 
 Implementation notes
 ---

@@ -150,6 +150,6 @@ class MainWidget(Screen):
         self.set_status_text("Cocktail aborted\nTake the glass")
 
     def on_pouring_progress(self, recipe, component, done, volume):
-        recipe_progress = [c[0] for c in recipe].index(component) / len(recipe)
+        recipe_progress = ([c[0] for c in recipe].index(component) + 1) / len(recipe)
         self.total_progress.value = recipe_progress * 100
         self.step_progress.value = done / volume * 100

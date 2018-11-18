@@ -107,7 +107,7 @@ class Bartender(StateMachineCallbacks):
             self.compressor.close()
             sleep(0.5)
             self.components[component].close()
-            logger.info('Subtracted usage %f ml', pouring_tracker.value + MEASURING_INERTIA)
+            logger.info('Used: %f ml of %s', pouring_tracker.value + MEASURING_INERTIA, component)
             component.use(pouring_tracker.value + MEASURING_INERTIA)
 
     @sm_transition(allowed_from=BartenderState.POURING, while_working=BartenderState.POURING_PROGRESS,

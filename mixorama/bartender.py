@@ -1,3 +1,4 @@
+import os
 from enum import IntEnum, unique
 from time import sleep
 from typing import List, Dict, Tuple
@@ -8,8 +9,9 @@ from mixorama.scales import Scales, ScalesTimeoutException, WaitingForWeightAbor
 from mixorama.statemachine import sm_transition, StateMachineCallbacks
 
 GLASS_WEIGHT = 150  # grams
-USER_TAKE_GLASS_TIMEOUT = 10000  # msec
+USER_TAKE_GLASS_TIMEOUT = 10000 if 'MOCK_SCALES' not in os.environ else 0  # msec
 MEASURING_INERTIA = 10  # grams, that the scales don't see when the valve closes
+POURING_TIMEOUT_PER_ML = 200  # ms to push 1 ml
 
 logger = logging.getLogger(__name__)
 
@@ -68,6 +70,7 @@ class Bartender(StateMachineCallbacks):
                 raise CocktailAbortedException()
             self.scales.wait_for_weight(
                 target_weight,
+                timeout=volume * POURING_TIMEOUT_PER_ML,
                 on_progress=lambda done, volume:
                     self._sm_state == BartenderState.POURING and
                     self._pour_progress(

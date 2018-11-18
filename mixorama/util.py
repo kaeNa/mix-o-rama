@@ -18,3 +18,11 @@ class DefaultFactoryDict(defaultdict):
             raise KeyError((key,))
         self[key] = value = self.default_factory(key)
         return value
+
+
+class MaxObserver:
+    value = 0
+
+    def observe(self, observing):
+        self.value = max(self.value, observing)
+        return True

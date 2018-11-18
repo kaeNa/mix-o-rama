@@ -1,4 +1,5 @@
 import logging
+from collections import OrderedDict
 from typing import Dict
 
 from mixorama.bartender import Bartender
@@ -46,7 +47,7 @@ def create_bar(shelf, config):
 
 
 def create_menu(bar, config: Dict[str, Dict[str, int]]):
-    recipes = {}
+    recipes = OrderedDict()
     available_components = dict([(c.name, c) for c in bar.keys()])
     for recipe_name, sequence in config.items():
         meta = sequence.pop('meta') if 'meta' in sequence else {}

@@ -10,7 +10,6 @@ from serial import Serial
 from mixorama.util import make_timeout
 
 SCALES_RESET_TIMEOUT = 5000
-
 logger = logging.getLogger(__name__)
 
 
@@ -22,7 +21,7 @@ class ScalesTimeoutException(ScalesException):
     pass
 
 
-class WaitingForWeightAbortedException(Exception):
+class WaitingForWeightAbortedException(ScalesException):
     pass
 
 
@@ -155,7 +154,7 @@ class Scales:
                         return result_queue.put(ScalesTimeoutException(v))
 
                     v = self.measure()
-                    logger.info('got measurement: %f', v)
+                    logger.debug('got measurement: %f', v)
                     on_progress(min(v, target), target)
 
                 result_queue.put(v)

@@ -1,15 +1,29 @@
 class Component:
     name = 'Weird Ingridient'
 
-    def __init__(self, name=None, density=1, strength=0):
+    def __init__(self, name=None, density=1, strength=0, volume=1000):
         """
         :param density: grams per milliliter
         :param strength: ABV, %
         """
         self.density = density
         self.strength = strength
+        self.volume = volume
+        self.spent = 0
         if name:
             self.name = name
+
+    def use(self, volume_used):
+        can_use = self.can_use(volume_used)
+        if can_use:
+            self.spent += volume_used
+        return can_use
+
+    def can_use(self, volume):
+        return self.volume > self.spent + volume
+
+    def refill(self, value=0):
+        self.spent = self.volume - value
 
     def __str__(self):
         return self.name

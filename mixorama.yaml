@@ -31,6 +31,7 @@ shelf:
     strength: 40
   Gin:
     strength: 40
+    volume: 500
   Rum:
     strength: 40
   Vodka:
@@ -43,6 +44,8 @@ shelf:
     strength: 17
   Chambord raspberry liqueur:
     strength: 16.5
+  Tonic water:
+    volume: 500
 
 menu:
   Tequila shot:

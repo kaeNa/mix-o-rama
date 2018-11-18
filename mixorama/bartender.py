@@ -5,6 +5,7 @@ from typing import List, Dict, Tuple
 import logging
 from mixorama.io import Valve
 from mixorama.recipes import Component
+from mixorama.util import MaxObserver
 from mixorama.scales import Scales, ScalesTimeoutException, WaitingForWeightAbortedException, ScalesException
 from mixorama.statemachine import sm_transition, StateMachineCallbacks
 
@@ -30,6 +31,10 @@ class CocktailAbortedException(Exception):
     pass
 
 
+class OutOfComponent(CocktailAbortedException):
+    pass
+
+
 class Bartender(StateMachineCallbacks):
     _sm_state = BartenderState.IDLE
     _abort = False
@@ -39,12 +44,18 @@ class Bartender(StateMachineCallbacks):
         self.scales = scales
         self.compressor = compressor
 
+    def can_make_drink(self, recipe: List[Tuple[Component, int]]):
+        for component, volume in recipe:
+            if component not in self.components or not component.can_use(volume):
+                return False
+
+        return True
+
     @sm_transition(allowed_from=BartenderState.IDLE, when_done=BartenderState.READY,
                    while_working=BartenderState.MAKING, on_exception=BartenderState.ABORTED)
     def make_drink(self, recipe: List[Tuple[Component, int]]):
-        for component, volume in recipe:
-            if component not in self.components:
-                raise ValueError('We do not currently have {}'.format(component.name))
+        if not self.can_make_drink(recipe):
+            raise OutOfComponent()
 
         for component, volume in recipe:
             self._pour(recipe=recipe, component=component, volume=volume)
@@ -60,6 +71,8 @@ class Bartender(StateMachineCallbacks):
             raise
 
         self.compressor.open()
+
+        pouring_tracker = MaxObserver()
         try:
             self.components[component].open()
 
@@ -68,11 +81,13 @@ class Bartender(StateMachineCallbacks):
 
             if self._abort:
                 raise CocktailAbortedException()
+
             self.scales.wait_for_weight(
                 target_weight,
                 timeout=volume * POURING_TIMEOUT_PER_ML,
                 on_progress=lambda done, volume:
                     self._sm_state == BartenderState.POURING and
+                    pouring_tracker.observe(done) and
                     self._pour_progress(
                         recipe=recipe,
                         component=component,
@@ -92,13 +107,16 @@ class Bartender(StateMachineCallbacks):
             self.compressor.close()
             sleep(0.5)
             self.components[component].close()
+            logger.info('Subtracted usage %f ml', pouring_tracker.value + MEASURING_INERTIA)
+            component.use(pouring_tracker.value + MEASURING_INERTIA)
 
     @sm_transition(allowed_from=BartenderState.POURING, while_working=BartenderState.POURING_PROGRESS,
                    when_done=BartenderState.POURING)
     def _pour_progress(self, recipe, component, done, volume):
         pass
 
-    @sm_transition(allowed_from=BartenderState.READY, when_done=BartenderState.IDLE, on_exception=BartenderState.ABORTED)
+    @sm_transition(allowed_from=BartenderState.READY, when_done=BartenderState.IDLE,
+                   on_exception=BartenderState.ABORTED)
     def serve(self):
         return self._wait_for_glass_lift()
 

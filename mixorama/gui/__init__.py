@@ -59,10 +59,13 @@ class BartenderGuiApp(App):
         self.bartender = bartender
 
     def build(self):
-        tpl_path = path.join(path.dirname(__file__), 'layout.kv')
-        Builder.load_file(tpl_path)
-
+        dir = path.dirname(__file__)
         sm = ScreenManager()
+
+        Builder.load_file(path.join(dir, 'main.kv'))
         sm.add_widget(MainWidget(self.menu, self.bartender, name='main'))
+
+        Builder.load_file(path.join(dir, 'settings.kv'))
         sm.add_widget(SettingsWidget(self.bartender, name='settings'))
+
         return sm

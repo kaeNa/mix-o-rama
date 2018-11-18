@@ -8,6 +8,12 @@ from kivy.uix.slider import Slider
 from mixorama.bartender import Bartender
 
 
+def refill_for_label(label, touch):
+    if label.collide_point(*touch.pos):
+        label.component.refill()
+        label.slider.set_norm_value(1.0)
+
+
 class SettingsWidget(Screen):
     components = ObjectProperty(None)
     ''':type: kivy.uix.stacklayout.StackLayout'''
@@ -26,14 +32,21 @@ class SettingsWidget(Screen):
     def refresh(self):
         self.components.clear_widgets()
 
-        for component in self.bartender.components.keys():
-            label = Label(size_hint=(1 / 8, 1 / 6), text=component.name)
-            label.bind(width=lambda bt, w: setattr(bt, 'text_size', (w*.85, None)))
+        rows = len(self.bartender.components)
 
-            slider = Slider(size_hint=(7 / 8, 1 / 6), min=0, max=component.volume,
+        for component in self.bartender.components.keys():
+            slider = Slider(size_hint=(7 / 8, 1 / rows), min=0, max=component.volume,
                             value=component.volume - component.spent)
             slider.component = component
             slider.bind(value=lambda s, v: s.component.refill(v))
+
+            label = Label(size_hint=(1 / 8, 1 / rows), text=component.name)
+            label.bind(width=lambda bt, w: setattr(bt, 'text_size', (w*.85, None)))
+
+            label.component = component
+            label.slider = slider
+            label.bind(on_touch_move=refill_for_label)
+            label.bind(on_touch_up=refill_for_label)
 
             self.components.add_widget(label)
             self.components.add_widget(slider)

@@ -22,8 +22,8 @@ class Component:
     def can_use(self, volume):
         return self.volume > self.spent + volume
 
-    def refill(self, value=0):
-        self.spent = self.volume - value
+    def refill(self, value=None):
+        self.spent = self.volume - (self.volume if value is None else value)
 
     def __str__(self):
         return self.name

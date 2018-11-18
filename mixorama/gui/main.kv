@@ -35,7 +35,7 @@
         #  size_hint: 1/3, 1/8
 
       Button:
-        size_hint: 1/6, 1/12
+        size_hint: 1/4, 1/12
         text: 'Settings'
         id: settings_btn
         on_press:
@@ -102,6 +102,15 @@
               id: abort_btn
               text: 'Abort'
               size_hint: 0.75, 0.5
+              background_normal: 'mixorama/gui/assets/RedActiv.png'
+              background_down: 'mixorama/gui/assets/RedPressed.png'
+              background_disabled_normal: 'mixorama/gui/assets/RedDisabled.png'
+              background_disabled_down: 'mixorama/gui/assets/RedDisabled.png'
+
           Button:
             id: make_btn
             text: 'Make!'
+            background_normal: 'mixorama/gui/assets/GreenActiv.png'
+            background_down: 'mixorama/gui/assets/GreenPressed.png'
+            background_disabled_normal: 'mixorama/gui/assets/GreenDisabled.png'
+            background_disabled_down: 'mixorama/gui/assets/GreenDisabled.png'

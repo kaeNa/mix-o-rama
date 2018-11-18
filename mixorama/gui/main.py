@@ -1,82 +1,23 @@
-import os
-import sys
-from os import path
+import logging
 from threading import Thread
 from typing import Dict
-import logging
-logger = logging.getLogger(__name__)
+
+from kivy.properties import ObjectProperty
+from kivy.uix.button import Button
+from kivy.uix.screenmanager import Screen
 
 from mixorama.bartender import Bartender, BartenderState, CocktailAbortedException
 from mixorama.recipes import Recipe
 from mixorama.statemachine import InvalidStateMachineTransition
 
-# cmdline arguments, logger and config setup are handled by mixorama
-os.environ["KIVY_NO_ARGS"] = "1"
-os.environ["KIVY_NO_CONSOLELOG"] = "1"
-os.environ["KIVY_NO_FILELOG"] = "1"
-os.environ["KIVY_NO_CONFIG"] = "1"
-
-# kivy thinks too much of itself, really...
-sys_stderr = sys.stderr
-logging_root = logging.root
-kivy_logger_setlevel = logging.getLogger('kivy').setLevel
-logging.getLogger('kivy').setLevel = lambda level: None
-
-from kivy.config import Config
-from kivy.app import App
-from kivy.lang import Builder
-from kivy.properties import ObjectProperty
-from kivy.uix.button import Button
-from kivy.uix.boxlayout import BoxLayout
-
-# restoring fucked up python settings
-sys.stderr = sys_stderr
-logging.root = logging_root
-logging.getLogger('kivy').setLevel = kivy_logger_setlevel
+logger = logging.getLogger(__name__)
 
 # Left-hand grid size constants
-MENU_ROWS = 6
+MENU_ROWS = 4
 MENU_COLS = 3
 
 
-def is_gui_available():
-    try:
-        from kivy.core.window import Window
-        return Window is not None
-    except Exception:
-        return False
-
-
-def gui_config(config: Dict[str, Dict[str, str]]):
-    for section, section_settings in config.items():
-        for option, value in section_settings.items():
-            Config.set(section, option, value)
-
-
-def gui_run(menu, bartender):
-    BartenderGuiApp(menu, bartender).run()
-
-
-class BartenderGuiApp(App):
-    def __init__(self, menu: Dict[str, Recipe], bartender: Bartender, **kwargs):
-        super(BartenderGuiApp, self).__init__(**kwargs)
-        self.menu = menu
-        self.bartender = bartender
-
-    def build(self):
-        tpl_path = path.join(path.dirname(__file__), 'gui/layout.kv')
-        Builder.load_file(tpl_path)
-        return MainWidget(self.menu, self.bartender)
-
-
-class TouchableButton(Button):
-    def collide_point(self, x, y):
-        parent = super(TouchableButton, self).collide_point(x, y)
-        print('colliding touchable button @ ', x, y)
-        return parent
-
-
-class MainWidget(BoxLayout):
+class MainWidget(Screen):
     menu_buttons = ObjectProperty(None)
     ''':type: kivy.uix.gridlayout.GridLayout'''
     image = ObjectProperty(None)
@@ -102,7 +43,7 @@ class MainWidget(BoxLayout):
     ''':type: Recipe'''
 
     def __init__(self, menu: Dict[str, Recipe], bartender: Bartender, **kwargs):
-        super(MainWidget, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         self.bartender = bartender
         self.menu = menu
 
@@ -122,12 +63,17 @@ class MainWidget(BoxLayout):
         self.on_idle()
         self.stage_recipe(list(menu.values())[0])
 
+    def on_transition_state(self, screen, state):
+        if state == 'in':
+            self.on_idle()
+
     def build_cocktail_buttons(self, menu):
         for key, recipe in menu.items():
             b = Button(text=recipe.name,
                        size_hint=(1 / MENU_COLS, 1 / MENU_ROWS),
                        halign='center',
-                       on_press=lambda *a, r=recipe: self.stage_recipe(r))
+                       on_press=lambda b: self.stage_recipe(b.recipe))
+            b.recipe = recipe
 
             # set text width to 85% of the button width
             b.bind(width=lambda bt, w: setattr(bt, 'text_size', (w*.85, None)))
@@ -173,15 +119,20 @@ class MainWidget(BoxLayout):
                     self.bartender.make_drink(self.staged_recipe.sequence)
                     self.bartender.serve()
                 except CocktailAbortedException:
+                    logger.info('Cocktail making or serving was aborted')
                     self.bartender.discard()
                 except Exception:
-                    logger.exception('unhandled exception on_make_btn_press()-> maker()')
+                    logger.exception('Unhandled exception on_make_btn_press()-> maker()')
 
             Thread(daemon=True, target=maker).start()
 
     def on_idle(self):
         self.make_btn.disabled = False
         self.abort_btn.disabled = True
+
+        for b in self.menu_buttons.children:
+            b.disabled = not self.bartender.can_make_drink(b.recipe)
+
         self.set_status_text('Ready!')
         self.reset_progress()
 

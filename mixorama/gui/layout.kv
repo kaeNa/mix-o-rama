@@ -11,6 +11,7 @@
   step_progress: step_progress
   abort_btn: abort_btn
   make_btn: make_btn
+  settings_btn: settings_btn
   info_ul: info_ul
   info_ur: info_ur
   info_bl: info_bl
@@ -21,8 +22,8 @@
     padding: 15
     spacing: 10
 
-    GridLayout:  # left column
-      cols: 3
+    BoxLayout:  # left column
+      orientation: 'vertical'
 
       StackLayout:
         id: menu_buttons
@@ -32,6 +33,14 @@
         #Button:
         #  text: 'Margarita'
         #  size_hint: 1/3, 1/8
+
+      Button:
+        size_hint: 1/6, 1/12
+        text: 'Settings'
+        id: settings_btn
+        on_press:
+          root.manager.transition.direction = 'left'
+          root.manager.current = 'settings'
 
     BoxLayout: # right column
       orientation: 'vertical'
@@ -96,3 +105,52 @@
           Button:
             id: make_btn
             text: 'Make!'
+
+<SettingsWidget>:
+  components: components
+  reboot_btn: reboot_btn
+
+  BoxLayout:
+    orientation: 'vertical'
+
+    StackLayout:
+      orientation: 'lr-tb'
+      size_hint: 1, 1/12
+
+      Button:
+        size_hint: 1/6, 1
+        text: '<- Back'
+        on_press:
+          root.manager.transition.direction = 'right'
+          root.manager.current = 'main'
+      Label:
+        size_hint: 5/6, 1
+        text: 'Components remaining volumes:'
+
+    BoxLayout:
+      orientation: 'vertical'
+
+      StackLayout:
+        id: components
+        orientation: 'lr-tb'
+
+#        Label:
+#          text: 'Vodka'
+#          size_hint: 1/8, 1/6
+#        Slider:
+#          size_hint: 7/8, 1/6
+#          min: 100
+#          max: 1500
+#          value: 200
+
+
+    BoxLayout:
+      size_hint: 1, 1/12
+      orientation: 'horizontal'
+
+      Widget:
+        size_hint: 5/6, 1
+      Button:
+        id: reboot_btn
+        size_hint: 1/6, 1
+        text: 'Reboot'

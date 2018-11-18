@@ -96,7 +96,7 @@ menu:
     meta:
       description: coconut rum + pineapple cranberry juice
 
-  Fong juice:
+  Almost collada:
     Malibu rum: 40
     Pineapple juice: 80
     meta:
@@ -115,33 +115,12 @@ menu:
     meta:
       description: malibu & orange juice
 
-  June bug:
-    Midori melon liqueur: 30
-    Malibu rum: 30
-    Pineapple juice: 30
-    meta:
-      description: melon, coconut and pineapple
-
-  M.V.P.:
-    Vodka: 40
-    Midori melon liqueur: 20
-    Malibu rum: 20
-    Pineapple juice: 60
-    meta:
-      description: a much stronger June Bug
-
   Margarita:
     Tequila: 35
     Cointreau: 20
     #LimeJuice: 15
     meta:
       description: Add 15 ml. of lime juice.
-
-  'Martian Martini':
-    Midori melon liqueur: 30
-    Gin: 60
-    meta:
-      description: melon liqueur and gin
 
   'Malibu Bay Breeze':
     Malibu rum: 45

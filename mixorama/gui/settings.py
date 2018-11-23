@@ -17,13 +17,19 @@ def refill_for_label(label, touch):
 class SettingsWidget(Screen):
     components = ObjectProperty(None)
     ''':type: kivy.uix.stacklayout.StackLayout'''
+    restart_btn = ObjectProperty(None)
+    ''':type: kivy.uix.button.Button'''
     reboot_btn = ObjectProperty(None)
+    ''':type: kivy.uix.button.Button'''
+    shutdown_btn = ObjectProperty(None)
     ''':type: kivy.uix.button.Button'''
 
     def __init__(self, bartender: Bartender, **kw):
         super().__init__(**kw)
         self.bartender = bartender
+        self.restart_btn.bind(on_press=lambda *a: os.system('sudo service mixorama restart'))
         self.reboot_btn.bind(on_press=lambda *a: os.system('sudo reboot now'))
+        self.shutdown_btn.bind(on_press=lambda *a: os.system('sudo shutdown now'))
 
     def on_transition_state(self, screen, state):
         if state == 'in':

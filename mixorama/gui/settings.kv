@@ -1,6 +1,8 @@
 <SettingsWidget>:
   components: components
+  restart_btn: restart_btn
   reboot_btn: reboot_btn
+  shutdown_btn: shutdown_btn
 
   BoxLayout:
     orientation: 'vertical'
@@ -41,8 +43,16 @@
       orientation: 'horizontal'
 
       Widget:
-        size_hint: 5/6, 1
+        size_hint: 3/6, 1
+      Button:
+        id: restart_btn
+        size_hint: 1/6, 1
+        text: 'Restart'
       Button:
         id: reboot_btn
         size_hint: 1/6, 1
         text: 'Reboot'
+      Button:
+        id: shutdown_btn
+        size_hint: 1/6, 1
+        text: 'Shutdown'

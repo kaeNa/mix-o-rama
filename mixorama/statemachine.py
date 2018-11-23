@@ -37,7 +37,8 @@ def sm_transition(allowed_from: Union[list, Enum],
 
             try:
                 result = f(self, *args, **kwargs)
-            except Exception:
+            except Exception as e:
+                kwargs.update({'_e': e})
                 _notify_callbacks(self, on_exception, self._sm_state, args, kwargs)
                 self._sm_state = on_exception
                 raise

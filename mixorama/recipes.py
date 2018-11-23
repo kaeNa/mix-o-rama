@@ -22,11 +22,12 @@ class Component:
     def can_use(self, volume):
         return self.volume > self.spent + volume
 
-    def refill(self, value=None):
+    def fill(self, value=None):
         self.spent = self.volume - (self.volume if value is None else value)
+        return self.spent < self.volume
 
     def __str__(self):
-        return self.name
+        return "%s:\n%d ml" % (self.name, self.volume - self.spent)
 
 
 class Recipe:
@@ -57,6 +58,9 @@ class Recipe:
 
     def __iter__(self):
         return iter(self.sequence)
+
+    def __len__(self):
+        return len(self.sequence)
 
     def __str__(self):
         return "\n".join(['{} ml of {}'.format(v, str(c))

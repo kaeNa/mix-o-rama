@@ -16,34 +16,47 @@ bartender:
     inter_byte_timeout: 2
   compressor: 11 # 23
 
+usage:
+  db_url: sqlite:///usage.sqlite3
 
 logging:
   level: INFO
 
 kivy: # https://kivy.org/doc/stable/api-kivy.config.html#module-kivy.config
   input:
-    #mouse: mouse
-    mtdev_%(name)s: probesysfs,provider=mtdev
-    #hid_%(name)s: probesysfs,provider=hidinput
+    -mouse:
+    -%(name)s: # removes default probesysfs, cause it's conflicting with my laptop's touchpad
+    mouse: mouse,disable_on_activity
+    mtdev_%(name)s: probesysfs,provider=mtdev,match=ByQDtech
+  graphics:
+    width: '800'
+    height: '480'
 
 shelf:
   Tequila:
     strength: 40
+    density: 0.94 # gr/ml
   Gin:
     strength: 40
     volume: 500
+    density: 0.94
   Rum:
     strength: 40
+    density: 0.94
   Vodka:
     strength: 40
+    density: 0.94
   Cointreau:
     strength: 35
+    density: 1.04
   Malibu rum:
     strength: 21
   Midori melon liqueur:
     strength: 17
+    density: 1.05
   Chambord raspberry liqueur:
     strength: 16.5
+    density: 1.08
   Tonic water:
     volume: 500
 

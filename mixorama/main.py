@@ -6,7 +6,8 @@ import yaml
 import click
 import attr
 
-from mixorama.factory import create_bartender, create_bar, create_menu, create_shelf
+from mixorama.factory import create_bartender, create_bar, create_menu, create_shelf, create_usage_manager
+from mixorama.recipes import Recipe
 from mixorama.ui import cli_run, bind_hw_buttons
 from mixorama.io import cleanup
 
@@ -23,6 +24,8 @@ class Context:
     ''':type: Dict[Component, Valve]'''
     bartender = attr.ib()
     ''':type: mixorama.bartender.Bartender'''
+    usage_manager = attr.ib()
+    ''':type: mixorama.usage_manager.UsageManager'''
     menu = attr.ib()
     ''':type: Dict[str, Recipe]'''
 
@@ -42,7 +45,10 @@ def cli(ctx: click.Context, conf: str) -> None:
     bartender = create_bartender(bar, cfg.get('bartender'))
     menu = create_menu(bar, cfg.get('menu'))
 
-    ctx.obj = Context(cfg, shelf, bar, bartender, menu)
+    # Usage Manager simply hooks
+    usage_manager = create_usage_manager(bartender, cfg.get('usage'))
+
+    ctx.obj = Context(cfg, shelf, bar, bartender, usage_manager, menu)
 
 
 @cli.command(name='run')
@@ -57,9 +63,9 @@ def run(ctx: click.Context, gui: bool):
 
         if gui:
             from mixorama.gui import is_gui_available, gui_config, gui_run
+            gui_config(ctx.cfg.get('kivy', {}))
             if is_gui_available():
-                gui_config(ctx.cfg.get('kivy', {}))
-                gui_run(ctx.menu, ctx.bartender)
+                gui_run(ctx.menu, ctx.bartender, ctx.usage_manager)
             else:
                 print('GUI is not available on this system')
         else:
@@ -84,7 +90,7 @@ def test(ctx: click.Context):
         print('scales: {}/{}'.format(d, s)))
 
     print('Put an empty glass on them and press Enter') or input()
-    ctx.bartender.make_drink([])
+    ctx.bartender.make_drink(recipe=Recipe('mixorama test'))
     print('Now lift the glass')
     ctx.bartender.serve() or print('Waiting for a glass lift has timed out')
 

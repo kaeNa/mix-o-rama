@@ -3,8 +3,8 @@ from threading import Thread
 from typing import Dict
 
 from kivy.properties import ObjectProperty
-from kivy.uix.button import Button
 from kivy.uix.screenmanager import Screen
+from kivy.uix.togglebutton import ToggleButton
 
 from mixorama.bartender import Bartender, BartenderState, CocktailAbortedException
 from mixorama.recipes import Recipe
@@ -61,7 +61,6 @@ class MainWidget(Screen):
         self.make_btn.bind(on_press=self.on_make_btn_press)
 
         self.on_idle()
-        self.stage_recipe(list(menu.values())[0])
 
     def on_transition_state(self, screen, state):
         if state == 'in':
@@ -69,16 +68,21 @@ class MainWidget(Screen):
 
     def build_cocktail_buttons(self, menu):
         for key, recipe in menu.items():
-            b = Button(text=recipe.name,
-                       size_hint=(1 / MENU_COLS, 1 / MENU_ROWS),
-                       halign='center',
-                       on_press=lambda b: self.stage_recipe(b.recipe))
+            b = ToggleButton(text=recipe.name,
+                             size_hint=(1 / MENU_COLS, 1 / MENU_ROWS),
+                             halign='center',
+                             group='recipe',
+                             allow_no_selection=False,
+                             on_press=lambda b: self.stage_recipe(b.recipe))
             b.recipe = recipe
 
             # set text width to 85% of the button width
             b.bind(width=lambda bt, w: setattr(bt, 'text_size', (w*.85, None)))
 
             self.menu_buttons.add_widget(b)
+
+        self.stage_recipe(self.menu_buttons.children[-1].recipe)
+        self.menu_buttons.children[-1].state = 'down'
 
     def stage_recipe(self, recipe: Recipe):
         self.staged_recipe = recipe
@@ -116,7 +120,7 @@ class MainWidget(Screen):
         if self.staged_recipe:
             def maker():
                 try:
-                    self.bartender.make_drink(self.staged_recipe.sequence)
+                    self.bartender.make_drink(recipe=self.staged_recipe)
                     self.bartender.serve()
                 except CocktailAbortedException:
                     logger.info('Cocktail making or serving was aborted')

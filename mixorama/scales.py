@@ -101,7 +101,7 @@ def reject_outliers(data, stdev_multiplier=2):
 class Scales:
     tare = 0
 
-    def __init__(self, port, calibrated_1g=-2000.0, measurements=1, **kwargs):
+    def __init__(self, calibrated_1g=-2000.0, measurements=1, **kwargs):
         self._abort_event = Event()
         self.calibrated_1g = calibrated_1g
         self.measurements = measurements
@@ -110,11 +110,12 @@ class Scales:
             logger.warning('Using mocked scales!')
             self.scales = MockScalesImpl()
         else:
-            self.scales = ScalesImpl(port=port, **kwargs)
+            self.scales = ScalesImpl(**kwargs)
 
-    def reset(self, tare=None):
+    def reset(self, tare=None, stabilize=True):
         self.scales.reset()
-        self._raw_measure(6)  # skipping some data to stabilize
+        if stabilize:
+            self._raw_measure(6)  # skipping some data to stabilize
         self.tare = tare or self._raw_measure()
         logger.info('set tare to %f', self.tare)
 

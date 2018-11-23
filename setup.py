@@ -22,6 +22,7 @@ install_requires = [
     'RPi.GPIO',
     'PyYAML',
     'kivy==1.10.1',
+    'peewee==3.7.1'
 ]
 
 tests_require = [

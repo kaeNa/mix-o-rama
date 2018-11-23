@@ -1,6 +1,9 @@
 import os
 import sys
 import logging
+
+from mixorama.usage import UsageManager
+
 logger = logging.getLogger(__name__)
 
 # cmdline arguments, logger and config setup are handled by mixorama
@@ -45,18 +48,22 @@ def is_gui_available():
 def gui_config(config: Dict[str, Dict[str, str]]):
     for section, section_settings in config.items():
         for option, value in section_settings.items():
-            Config.set(section, option, value)
+            if option.startswith('-'):
+                Config.remove_option(section, option[1:])
+            else:
+                Config.set(section, option, value)
 
 
-def gui_run(menu, bartender):
-    BartenderGuiApp(menu, bartender).run()
+def gui_run(menu, bartender, usage_manager):
+    BartenderGuiApp(menu, bartender, usage_manager).run()
 
 
 class BartenderGuiApp(App):
-    def __init__(self, menu: Dict[str, Recipe], bartender: Bartender, **kwargs):
+    def __init__(self, menu: Dict[str, Recipe], bartender: Bartender, usage_manager: UsageManager, **kwargs):
         super(BartenderGuiApp, self).__init__(**kwargs)
         self.menu = menu
         self.bartender = bartender
+        self.usage_manager = usage_manager
 
     def build(self):
         dir = path.dirname(__file__)
@@ -66,6 +73,6 @@ class BartenderGuiApp(App):
         sm.add_widget(MainWidget(self.menu, self.bartender, name='main'))
 
         Builder.load_file(path.join(dir, 'settings.kv'))
-        sm.add_widget(SettingsWidget(self.bartender, name='settings'))
+        sm.add_widget(SettingsWidget(self.bartender, self.usage_manager, name='settings'))
 
         return sm

@@ -1,10 +1,10 @@
 import os
 from enum import IntEnum, unique
 from time import sleep
-from typing import List, Dict, Tuple
+from typing import Dict
 import logging
 from mixorama.io import Valve
-from mixorama.recipes import Component
+from mixorama.recipes import Component, Recipe
 from mixorama.util import MaxObserver
 from mixorama.scales import Scales, ScalesTimeoutException, WaitingForWeightAbortedException, ScalesException
 from mixorama.statemachine import sm_transition, StateMachineCallbacks
@@ -44,7 +44,7 @@ class Bartender(StateMachineCallbacks):
         self.scales = scales
         self.compressor = compressor
 
-    def can_make_drink(self, recipe: List[Tuple[Component, int]]):
+    def can_make_drink(self, recipe: Recipe):
         for component, volume in recipe:
             if component not in self.components or not component.can_use(volume):
                 return False
@@ -53,7 +53,7 @@ class Bartender(StateMachineCallbacks):
 
     @sm_transition(allowed_from=BartenderState.IDLE, when_done=BartenderState.READY,
                    while_working=BartenderState.MAKING, on_exception=BartenderState.ABORTED)
-    def make_drink(self, recipe: List[Tuple[Component, int]]):
+    def make_drink(self, recipe: Recipe):
         if not self.can_make_drink(recipe):
             raise OutOfComponent()
 
@@ -63,7 +63,7 @@ class Bartender(StateMachineCallbacks):
 
     @sm_transition(allowed_from=BartenderState.MAKING, while_working=BartenderState.POURING,
                    when_done=BartenderState.MAKING, on_exception=BartenderState.ABORTED)
-    def _pour(self, recipe, component, volume):
+    def _pour(self, recipe: Recipe, component: Component, volume: int):
         try:
             self.scales.reset()
         except ScalesException:
@@ -107,8 +107,9 @@ class Bartender(StateMachineCallbacks):
             self.compressor.close()
             sleep(0.5)
             self.components[component].close()
-            logger.info('Used: %f ml of %s', pouring_tracker.value + MEASURING_INERTIA, component)
-            component.use(pouring_tracker.value + MEASURING_INERTIA)
+
+            used_volume = pouring_tracker.value + MEASURING_INERTIA
+            logger.info('Used: %f ml of %s', used_volume, component)
 
     @sm_transition(allowed_from=BartenderState.POURING, while_working=BartenderState.POURING_PROGRESS,
                    when_done=BartenderState.POURING)

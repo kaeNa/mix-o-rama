@@ -1,3 +1,4 @@
+"""All the config file interpreting, instance creation and configuring must be done in this module."""
 import logging
 from collections import OrderedDict
 from typing import Dict
@@ -6,6 +7,7 @@ from mixorama.bartender import Bartender
 from mixorama.io import Valve, io_init
 from mixorama.recipes import Component, Recipe
 from mixorama.scales import Scales
+from mixorama.usage import UsageManager, configure_db
 from mixorama.util import DefaultFactoryDict
 
 logger = logging.getLogger(__name__)
@@ -26,6 +28,15 @@ def create_bartender(bar, config):
     bartender = Bartender(bar, compressor, scales)
 
     return bartender
+
+
+def create_usage_manager(bartender, config):
+    assert isinstance(config, dict)
+    logger.debug('Connecting to usage db')
+    db_url = config.get('db_url', 'sqlite:///usage.sqlite3')
+    assert configure_db(db_url), 'can connect to usage db'
+    usage_manager = UsageManager(bartender)
+    return usage_manager
 
 
 def create_shelf(config):

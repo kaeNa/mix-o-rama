@@ -12,7 +12,7 @@ from mixorama.statemachine import sm_transition, StateMachineCallbacks
 GLASS_WEIGHT = 150  # grams
 USER_TAKE_GLASS_TIMEOUT = 10000 if 'MOCK_SCALES' not in os.environ else 0  # msec
 MEASURING_INERTIA = 10  # grams, that the scales don't see when the valve closes
-POURING_TIMEOUT_PER_ML = 200  # ms to push 1 ml
+POURING_TIMEOUT_PER_ML = 400  # ms to push 1 ml
 
 logger = logging.getLogger(__name__)
 

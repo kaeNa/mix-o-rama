@@ -65,7 +65,7 @@ class SettingsWidget(Screen):
         self.update_scales_monitor()
 
     def update_scales_monitor(self, dt=None):
-        self.scales_value = self.bartender.scales.measure()
+        self.scales_value = self.bartender.scales.measure(autostop=True)
         self.monitor_scales.text = '%.2f gr.' % self.scales_value
 
     def build_component_sliders(self):

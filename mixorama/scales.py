@@ -125,7 +125,7 @@ class Scales:
         #logger.debug('mean measurements: %f', mean)
         return mean
 
-    def measure(self):
+    def measure(self, autostop=False):
         try:
             no_tare = self._raw_measure() - self.tare
             #logger.debug('no_tare: %f', no_tare)
@@ -137,6 +137,9 @@ class Scales:
 
         except TimeoutError as e:
             raise ScalesTimeoutException from e
+        finally:
+            if autostop:
+                self.scales.stop()
 
     def wait_for_weight(self, target, timeout=20000, on_progress=lambda d, s: None):
         self._abort_event.clear()

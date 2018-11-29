@@ -1,10 +1,10 @@
 bar:
-  Malibu rum: 0  # 27 (valve1)
-  Midori melon liqueur: 5  # 29 (valve2)
+  Gin: 0  # 27 (valve1)
+  Tonic water: 5  # 29 (valve2)
   Pineapple juice: 6  # 31 (valve3)
   Cranberry juice: 13  # 35 (valve4)
-  Gin: 19  # 33 (valve5)
-  Tonic water: 26  # 37 (valve6)
+  Malibu rum: 19  # 33 (valve5)
+  Midori melon liqueur: 26  # 37 (valve6)
 
 bartender:
   scales:
@@ -38,7 +38,6 @@ shelf:
     density: 0.94 # gr/ml
   Gin:
     strength: 40
-    volume: 500
     density: 0.94
   Rum:
     strength: 40
@@ -51,14 +50,14 @@ shelf:
     density: 1.04
   Malibu rum:
     strength: 21
+    volume: 500
   Midori melon liqueur:
     strength: 17
     density: 1.05
+    volume: 500
   Chambord raspberry liqueur:
     strength: 16.5
     density: 1.08
-  Tonic water:
-    volume: 500
 
 menu:
   Tequila shot:
